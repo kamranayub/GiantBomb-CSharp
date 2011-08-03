@@ -13,4 +13,13 @@ namespace GiantBomb.Api.Model {
 
         public const int StatusOk = 1;
     }
+
+    public class GiantBombResult<TResult> : GiantBombBase
+    {
+        public TResult Results { get; set; }
+    }
+
+    public class GiantBombResults<TResult> : GiantBombBase {
+        public List<TResult> Results { get; set; }
+    }
 }

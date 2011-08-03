@@ -58,6 +58,7 @@
   <ItemGroup>
     <Compile Include="Core.cs" />
     <Compile Include="Games.cs" />
+    <Compile Include="Platforms.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Support\Token.cs" />
     <Compile Include="TestBase.cs" />

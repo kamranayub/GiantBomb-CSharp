@@ -25,14 +25,4 @@ namespace GiantBomb.Api.Model
         public List<Release> Releases { get; set; }
         public string SiteDetailUrl { get; set; }
     }
-
-    public class GameResult : GiantBombBase
-    {
-        public Game Results { get; set; }
-    }
-
-    public class GamesResult : GiantBombBase
-    {
-        public List<Game> Results { get; set; } 
-    }
 }

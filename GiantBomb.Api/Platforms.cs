@@ -7,34 +7,30 @@ using RestSharp;
 
 namespace GiantBomb.Api {
     public partial class GiantBombRestClient {
-
-        /// <summary>
-        /// Gets a game with the given ID
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        public Game GetGame(int id) {
+        public Platform GetPlatform(int id)
+        {
             var request = new RestRequest {
-                Resource = "game/{Id}//"
+                Resource = "platform/{Id}//"
             };
 
             request.AddUrlSegment("Id", id.ToString());
 
-            var result = Execute<GiantBombResult<Game>>(request);
+            var result = Execute<GiantBombResult<Platform>>(request);
 
             if (result.StatusCode == GiantBombBase.StatusOk)
                 return result.Results;
 
             return null;
+            
         }
 
         /// <summary>
         /// Gets list of games
         /// </summary>        
         /// <returns></returns>
-        public IEnumerable<Game> GetGames(int page = 1, int pageSize = 25) {
+        public IEnumerable<Platform> GetPlatforms(int page = 1, int pageSize = 25) {
             var request = new RestRequest {
-                Resource = "games//"
+                Resource = "platforms//"
             };
 
             if (page > 1) {
@@ -43,7 +39,7 @@ namespace GiantBomb.Api {
 
             request.AddParameter("limit", pageSize);
 
-            var result = Execute<GiantBombResults<Game>>(request);
+            var result = Execute<GiantBombResults<Platform>>(request);
 
             if (result.StatusCode == GiantBombBase.StatusOk)
                 return result.Results;

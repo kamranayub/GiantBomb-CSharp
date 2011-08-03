@@ -53,6 +53,7 @@
     <Compile Include="Model\Image.cs" />
     <Compile Include="Model\Platform.cs" />
     <Compile Include="Model\Release.cs" />
+    <Compile Include="Platforms.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
