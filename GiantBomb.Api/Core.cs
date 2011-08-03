@@ -19,12 +19,12 @@ namespace GiantBomb.Api
         /// <summary>
         /// Your GiantBomb API token
         /// </summary>
-        private string ApiToken { get; set; }
+        private string ApiKey { get; set; }
 
         public GiantBombRestClient(string apiToken)
         {
-            BaseUrl = "https://api.giantbomb.com/";
-            ApiToken = apiToken;
+            BaseUrl = "http://api.giantbomb.com/";
+            ApiKey = apiToken;
 
             var assembly = Assembly.GetExecutingAssembly();
             var assemblyName = new AssemblyName(assembly.FullName);
@@ -35,7 +35,7 @@ namespace GiantBomb.Api
             _client.BaseUrl = BaseUrl;
 
             // API token is used on every request
-            _client.AddDefaultParameter("api_token", ApiToken, ParameterType.GetOrPost);
+            _client.AddDefaultParameter("api_key", ApiKey, ParameterType.GetOrPost);
         }
 
 #if FRAMEWORK

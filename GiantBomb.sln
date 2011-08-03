@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GiantBomb.Api", "GiantBomb.Api\GiantBomb.Api.csproj", "{9CB78FD8-C888-4A8C-B16F-AB762A5D5BAB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GiantBomb.Api.Tests", "GiantBomb.Api.Tests\GiantBomb.Api.Tests.csproj", "{1B4925AE-F785-4F8D-AFBE-8FAEF0980946}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +15,10 @@ Global
 		{9CB78FD8-C888-4A8C-B16F-AB762A5D5BAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9CB78FD8-C888-4A8C-B16F-AB762A5D5BAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9CB78FD8-C888-4A8C-B16F-AB762A5D5BAB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B4925AE-F785-4F8D-AFBE-8FAEF0980946}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B4925AE-F785-4F8D-AFBE-8FAEF0980946}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B4925AE-F785-4F8D-AFBE-8FAEF0980946}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B4925AE-F785-4F8D-AFBE-8FAEF0980946}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
