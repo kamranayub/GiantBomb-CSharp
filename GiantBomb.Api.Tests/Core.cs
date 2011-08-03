@@ -8,19 +8,16 @@ using RestSharp;
 
 namespace GiantBomb.Api.Tests
 {
-    public class Core
+    public class Core : TestBase
     {
 
         [Test]
         public void giantbomb_should_respond_to_request()
         {
-            var token = Token.GetToken();
-            var client = new GiantBombRestClient(token);
-
             var request = new RestRequest();            
             request.Resource = "games";
 
-            var result = client.Execute(request);
+            var result = _client.Execute(request);
 
             Assert.IsNotNull(result.Content);
         }

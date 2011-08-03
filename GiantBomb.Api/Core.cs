@@ -32,10 +32,11 @@ namespace GiantBomb.Api
 
             _client = new RestClient();
             _client.UserAgent = "giantbomb-csharp/" + version;
-            _client.BaseUrl = BaseUrl;
+            _client.BaseUrl = BaseUrl;            
 
             // API token is used on every request
-            _client.AddDefaultParameter("api_key", ApiKey, ParameterType.GetOrPost);
+            _client.AddDefaultParameter("api_key", ApiKey);
+            _client.AddDefaultParameter("format", "json");
         }
 
 #if FRAMEWORK

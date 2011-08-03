@@ -49,6 +49,10 @@
     <Compile Include="Core.cs" />
     <Compile Include="Games.cs" />
     <Compile Include="Model\Game.cs" />
+    <Compile Include="Model\GiantBombBase.cs" />
+    <Compile Include="Model\Image.cs" />
+    <Compile Include="Model\Platform.cs" />
+    <Compile Include="Model\Release.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
