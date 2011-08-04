@@ -20,6 +20,7 @@ namespace GiantBomb.Api.Tests {
             Assert.AreEqual(gameId, game.Id);
             Assert.IsTrue(game.Name.Contains("Skyrim"));
             Assert.IsNotNull(game.OriginalReleaseDate);
+            Assert.AreEqual(new DateTime(2011, 11, 11), game.OriginalReleaseDate.Value);
             Assert.IsNotNull(game.Platforms);
             Assert.IsNotNull(game.Releases);
             Assert.IsNotNull(game.Image);

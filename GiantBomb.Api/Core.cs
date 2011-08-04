@@ -62,7 +62,8 @@ namespace GiantBomb.Api {
                 throw new ArgumentOutOfRangeException("pageSize", "Page size cannot be greater than 20.");
 
             var request = new RestRequest {
-                Resource = resource + "//"
+                Resource = resource + "//",
+                DateFormat = "yyyy-MM-dd HH:mm:ss"
             };
 
             if (page > 1) {
@@ -89,7 +90,8 @@ namespace GiantBomb.Api {
 
         protected RestRequest GetSingleResource(string resource, int id, string[] fieldList = null) {
             var request = new RestRequest {
-                Resource = resource + "/{Id}//"
+                Resource = resource + "/{Id}//",
+                DateFormat = "yyyy-MM-dd HH:mm:ss"
             };
 
             request.AddUrlSegment("Id", id.ToString());
