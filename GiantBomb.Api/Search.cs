@@ -7,8 +7,8 @@ using RestSharp;
 
 namespace GiantBomb.Api {
     public partial class GiantBombRestClient {
-        public IEnumerable<Game> SearchForGames(string query, int page = 1, int pageSize = 20) {
-            var result = InternalSearchForGames(query, page, pageSize);
+        public IEnumerable<Game> SearchForGames(string query, int page = 1, int pageSize = 20, string[] limitFields = null) {
+            var result = InternalSearchForGames(query, page, pageSize, limitFields);
 
             if (result.StatusCode == GiantBombBase.StatusOk)
                 return result.Results;
@@ -16,8 +16,8 @@ namespace GiantBomb.Api {
             return null;
         }
 
-        protected GiantBombResults<Game> InternalSearchForGames(string query, int page = 1, int pageSize = 20) {
-            var request = GetListResource("search", page, pageSize);
+        protected GiantBombResults<Game> InternalSearchForGames(string query, int page = 1, int pageSize = 20, string[] limitFields = null) {
+            var request = GetListResource("search", page, pageSize, limitFields);
 
             request.AddParameter("query", query);
             request.AddParameter("resources", "game");
@@ -25,9 +25,9 @@ namespace GiantBomb.Api {
             return Execute<GiantBombResults<Game>>(request);
         }
 
-        public IEnumerable<Game> SearchForAllGames(string query) {
+        public IEnumerable<Game> SearchForAllGames(string query, string[] limitFields = null) {
             var results = new List<Game>();
-            var result = InternalSearchForGames(query);
+            var result = InternalSearchForGames(query, limitFields: limitFields);
 
             if (result.StatusCode != GiantBombBase.StatusOk)
                 return null;
@@ -39,7 +39,7 @@ namespace GiantBomb.Api {
 
                 // Start on page 2
                 for (var i = 2; i <= remaining; i++) {
-                    result = InternalSearchForGames(query, i);
+                    result = InternalSearchForGames(query, i, result.Limit, limitFields);
 
                     if (result.StatusCode != GiantBombBase.StatusOk)
                         break;

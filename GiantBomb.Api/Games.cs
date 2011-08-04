@@ -13,16 +13,16 @@ namespace GiantBomb.Api {
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public Game GetGame(int id) {
-            return GetSingleResource<Game>("game", id);
+        public Game GetGame(int id, string[] limitFields = null) {
+            return GetSingleResource<Game>("game", id, limitFields);
         }
 
         /// <summary>
         /// Gets list of games
         /// </summary>        
         /// <returns></returns>
-        public IEnumerable<Game> GetGames(int page = 1, int pageSize = 20) {
-            return GetListResource<Game>("games", page, pageSize);
+        public IEnumerable<Game> GetGames(int page = 1, int pageSize = 20, string[] limitFields = null) {
+            return GetListResource<Game>("games", page, pageSize, limitFields);
         }
     }
 }

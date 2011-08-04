@@ -57,7 +57,7 @@ namespace GiantBomb.Api {
         }
 #endif
 
-        protected RestRequest GetListResource(string resource, int page = 1, int pageSize = 20) {
+        protected RestRequest GetListResource(string resource, int page = 1, int pageSize = 20, string[] fieldList = null) {
             if (pageSize > 20)
                 throw new ArgumentOutOfRangeException("pageSize", "Page size cannot be greater than 20.");
 
@@ -71,11 +71,14 @@ namespace GiantBomb.Api {
 
             request.AddParameter("limit", pageSize);
 
+            if (fieldList != null)
+                request.AddParameter("field_list", String.Join(",", fieldList));
+
             return request;
         }
 
-        protected IEnumerable<TResult> GetListResource<TResult>(string resource, int page = 1, int pageSize = 20) where TResult : new() {
-            var request = GetListResource(resource, page, pageSize);
+        protected IEnumerable<TResult> GetListResource<TResult>(string resource, int page = 1, int pageSize = 20, string[] fieldList = null) where TResult : new() {
+            var request = GetListResource(resource, page, pageSize, fieldList);
             var results = Execute<GiantBombResults<TResult>>(request);
 
             if (results != null && results.StatusCode == GiantBombBase.StatusOk)

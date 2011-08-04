@@ -38,5 +38,16 @@ namespace GiantBomb.Api.Tests {
             Assert.IsNotNull(platforms);
             Assert.IsTrue(platforms.Count() > 1);
         }
+
+        [Test]
+        public void platform_resource_should_limit_fields_to_id_for_94() {
+            int platformId = 94;
+
+            var platform = _client.GetPlatform(platformId, new[] { "id" });
+
+            Assert.IsNotNull(platform);
+            Assert.AreEqual(platformId, platform.Id);
+            Assert.IsNullOrEmpty(platform.Name);
+        }
     }
 }

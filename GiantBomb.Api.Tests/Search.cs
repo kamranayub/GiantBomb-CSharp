@@ -30,5 +30,25 @@ namespace GiantBomb.Api.Tests {
             Assert.IsNotNull(result);
             Assert.AreEqual(43, result.Count);
         }
+
+        [Test]
+        public void search_resource_should_limit_fields_to_id_for_one_result() {
+            var result = _client.SearchForGames("skyrim", limitFields: new [] { "id" }).ToList();
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual(1, result.Count);
+            Assert.Greater(result.First().Id, 0);
+            Assert.IsTrue(result.All(g => string.IsNullOrWhiteSpace(g.Name)));
+        }
+
+        [Test]
+        public void search_resource_should_limit_fields_to_id_for_all_result() {
+            var result = _client.SearchForAllGames("rage", limitFields: new[] { "id" }).ToList();
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual(43, result.Count);
+            Assert.IsTrue(result.All(g => g.Id > 0));
+            Assert.IsTrue(result.All(g => string.IsNullOrWhiteSpace(g.Name)));
+        }
     }
 }

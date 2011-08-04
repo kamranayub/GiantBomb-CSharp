@@ -29,10 +29,21 @@ namespace GiantBomb.Api.Tests {
         [Test]
         public void games_resource_should_return_list_of_games() {
 
-            var games = _client.GetGames(pageSize: 20);
+            var games = _client.GetGames();
 
             Assert.IsNotNull(games);
             Assert.IsTrue(games.Count() > 1);
+        }
+
+        [Test]
+        public void game_resource_should_limit_fields_to_id_for_33394() {
+            int gameId = 33394;
+
+            var game = _client.GetGame(gameId, new [] { "id" });
+
+            Assert.IsNotNull(game);
+            Assert.AreEqual(gameId, game.Id);
+            Assert.IsNullOrEmpty(game.Name);            
         }
     }
 }
