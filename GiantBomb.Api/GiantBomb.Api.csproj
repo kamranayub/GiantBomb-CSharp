@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="Core.cs" />
     <Compile Include="Games.cs" />
+    <Compile Include="IGiantBombRestClient.cs" />
     <Compile Include="Model\Game.cs" />
     <Compile Include="Model\GiantBombBase.cs" />
     <Compile Include="Model\Image.cs" />
@@ -55,6 +56,7 @@
     <Compile Include="Model\Release.cs" />
     <Compile Include="Platforms.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Search.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -14,41 +14,15 @@ namespace GiantBomb.Api {
         /// <param name="id"></param>
         /// <returns></returns>
         public Game GetGame(int id) {
-            var request = new RestRequest {
-                Resource = "game/{Id}//"
-            };
-
-            request.AddUrlSegment("Id", id.ToString());
-
-            var result = Execute<GiantBombResult<Game>>(request);
-
-            if (result.StatusCode == GiantBombBase.StatusOk)
-                return result.Results;
-
-            return null;
+            return GetSingleResource<Game>("game", id);
         }
 
         /// <summary>
         /// Gets list of games
         /// </summary>        
         /// <returns></returns>
-        public IEnumerable<Game> GetGames(int page = 1, int pageSize = 25) {
-            var request = new RestRequest {
-                Resource = "games//"
-            };
-
-            if (page > 1) {
-                request.AddParameter("offset", pageSize * (page - 1));
-            }
-
-            request.AddParameter("limit", pageSize);
-
-            var result = Execute<GiantBombResults<Game>>(request);
-
-            if (result.StatusCode == GiantBombBase.StatusOk)
-                return result.Results;
-
-            return null;
+        public IEnumerable<Game> GetGames(int page = 1, int pageSize = 20) {
+            return GetListResource<Game>("games", page, pageSize);
         }
     }
 }
