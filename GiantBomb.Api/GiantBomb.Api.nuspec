@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <version>1.0.0.0</version>
+    <authors>kayub</authors>
+    <owners>kayub</owners>
+    <dependencies>
+      <dependency id="RestSharp" version="103.0" />
+    </dependencies>
+    <id>GiantBomb.Api</id>
+    <title>GiantBomb</title>
+    <projectUrl>http://github.com/kamranayub/GiantBomb-CSharp</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>RestSharp-based API wrapper for the GiantBomb games database public API</description>
+    <copyright>Copyright © kayub 2012</copyright>
+  </metadata>
+  <files>
+    <file src="bin\Release\GiantBomb.Api.dll" target="lib\net40\GiantBomb.Api.dll" />
+  </files>
+</package>

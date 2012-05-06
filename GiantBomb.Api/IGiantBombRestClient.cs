@@ -43,7 +43,7 @@ namespace GiantBomb.Api
         /// Execute a manual REST request
         /// </summary>
         /// <param name="request">The RestRequest to execute (will use client credentials)</param>
-        RestResponse Execute(RestRequest request);
+        IRestResponse Execute(RestRequest request);
 
         /// <summary>
         /// Searches for a game by keyword and gets paged results

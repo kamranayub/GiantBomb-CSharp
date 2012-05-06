@@ -52,7 +52,7 @@ namespace GiantBomb.Api {
         /// Execute a manual REST request
         /// </summary>
         /// <param name="request">The RestRequest to execute (will use client credentials)</param>
-        public RestResponse Execute(RestRequest request) {
+        public IRestResponse Execute(RestRequest request) {
             return _client.Execute(request);
         }
 #endif
