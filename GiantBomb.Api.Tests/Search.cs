@@ -28,7 +28,7 @@ namespace GiantBomb.Api.Tests {
             var result = _client.SearchForAllGames("rage").ToList();
 
             Assert.IsNotNull(result);
-            Assert.AreEqual(43, result.Count);
+            Assert.GreaterOrEqual(result.Count, 43);
         }
 
         [Test]
@@ -46,7 +46,7 @@ namespace GiantBomb.Api.Tests {
             var result = _client.SearchForAllGames("rage", limitFields: new[] { "id" }).ToList();
 
             Assert.IsNotNull(result);
-            Assert.AreEqual(43, result.Count);
+            Assert.GreaterOrEqual(result.Count, 43);
             Assert.IsTrue(result.All(g => g.Id > 0));
             Assert.IsTrue(result.All(g => string.IsNullOrWhiteSpace(g.Name)));
         }

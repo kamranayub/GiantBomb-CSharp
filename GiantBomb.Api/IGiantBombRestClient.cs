@@ -28,6 +28,36 @@ namespace GiantBomb.Api
         IEnumerable<Game> GetGames(int page = 1, int pageSize = 20, string[] limitFields = null);
 
         /// <summary>
+        /// Gets a release with the given ID
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="limitFields"></param>
+        /// <returns></returns>
+        Release GetRelease(int id, string[] limitFields = null);
+
+        /// <summary>
+        /// Gets all releases for a game with the given ID (multiple requests)
+        /// </summary>
+        /// <param name="gameId"></param>
+        /// <param name="limitFields"></param>
+        /// <returns></returns>
+        /// <remarks>
+        /// Unfortunately, this requires multiple requests; 1 for the game, 1 for each of the releases
+        /// </remarks>
+        IEnumerable<Release> GetReleasesForGame(int gameId, string[] limitFields = null);
+
+        /// <summary>
+        /// Gets all releases for the given game (multiple requests)
+        /// </summary>
+        /// <param name="game"></param>
+        /// <param name="limitFields"></param>
+        /// <returns></returns>
+        /// <remarks>
+        /// Unfortunately, this requires multiple requests; 1 for each of the releases
+        /// </remarks>
+        IEnumerable<Release> GetReleasesForGame(Game game, string[] limitFields = null); 
+
+        /// <summary>
         /// Base URL of API (defaults to http://api.giantbomb.com)
         /// </summary>
         string BaseUrl { get; set; }
