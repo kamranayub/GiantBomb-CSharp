@@ -51,3 +51,4 @@ packages/
 *.private
 *.vs10x
 *.docstates
+*.nupkg
