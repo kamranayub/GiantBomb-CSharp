@@ -54,6 +54,7 @@
     <Compile Include="Games.cs" />
     <Compile Include="Platforms.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Regions.cs" />
     <Compile Include="Releases.cs" />
     <Compile Include="Search.cs" />
     <Compile Include="Support\Token.cs" />
