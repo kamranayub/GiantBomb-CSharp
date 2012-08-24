@@ -15,6 +15,20 @@ namespace GiantBomb.Api
         IEnumerable<Platform> GetPlatforms(int page = 1, int pageSize = 20, string[] limitFields = null);
 
         /// <summary>
+        /// Get a region
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="limitFields"></param>
+        /// <returns></returns>
+        Region GetRegion(int id, string[] limitFields = null);
+
+        /// <summary>
+        /// Gets list of regions
+        /// </summary>        
+        /// <returns></returns>
+        IEnumerable<Region> GetRegions(int page = 1, int pageSize = 20, string[] limitFields = null);
+
+        /// <summary>
         /// Gets a game with the given ID
         /// </summary>
         /// <param name="id"></param>
