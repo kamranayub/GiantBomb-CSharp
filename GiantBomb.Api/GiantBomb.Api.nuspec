@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
   <metadata>
-    <version>1.2.1.0</version>
+    <version>1.2.2.0</version>
     <authors>kayub</authors>
     <owners>kayub</owners>
     <dependencies>
-      <dependency id="RestSharp" version="103.0" />
+      <dependency id="RestSharp" version="104.0" />
     </dependencies>
     <id>GiantBomb.Api</id>
     <title>GiantBomb</title>
@@ -14,7 +14,7 @@
     <description>RestSharp-based API wrapper for the GiantBomb games database public API</description>
     <copyright>Copyright © kayub 2012</copyright>
     <releaseNotes>
-      Fix region interface
+      Updated to RestSharp 104
     </releaseNotes>
   </metadata>
   <files>
