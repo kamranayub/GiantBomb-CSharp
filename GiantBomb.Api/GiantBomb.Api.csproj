@@ -51,6 +51,7 @@
     <Compile Include="IGiantBombRestClient.cs" />
     <Compile Include="Model\Developer.cs" />
     <Compile Include="Model\Game.cs" />
+    <Compile Include="Model\Genre.cs" />
     <Compile Include="Model\GiantBombBase.cs" />
     <Compile Include="Model\Image.cs" />
     <Compile Include="Model\Platform.cs" />
@@ -71,7 +72,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <PropertyGroup>
-    <PostBuildEvent>"$(SolutionDir).nuget\nuget.exe" pack "$(ProjectDir)GiantBomb.Api.nuspec" -OutputDirectory "..\..\.."</PostBuildEvent>
+    <PostBuildEvent>"$(SolutionDir).nuget\nuget.exe" pack "$(ProjectPath)" -OutputDirectory "..\..\.."</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

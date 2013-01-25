@@ -1,23 +1,17 @@
 <?xml version="1.0"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
   <metadata>
-    <version>1.2.2.0</version>
+    <version>$version$</version>
     <authors>kayub</authors>
     <owners>kayub</owners>
-    <dependencies>
-      <dependency id="RestSharp" version="104.0" />
-    </dependencies>
     <id>GiantBomb.Api</id>
-    <title>GiantBomb</title>
+    <title>GiantBomb API (C#)</title>
     <projectUrl>http://github.com/kamranayub/GiantBomb-CSharp</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>RestSharp-based API wrapper for the GiantBomb games database public API</description>
     <copyright>Copyright © kayub 2012</copyright>
     <releaseNotes>
-      Updated to RestSharp 104
+      Added Genres, Developers, Publishers, and SimilarGames properties to Game object
     </releaseNotes>
   </metadata>
-  <files>
-    <file src="bin\Release\GiantBomb.Api.dll" target="lib\net40\GiantBomb.Api.dll" />
-  </files>
 </package>
