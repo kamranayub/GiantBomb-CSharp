@@ -6,75 +6,146 @@ namespace GiantBomb.Api
 {
     public interface IGiantBombRestClient
     {
+        /// <summary>
+        /// Base URL of API (defaults to http://api.giantbomb.com)
+        /// </summary>
+        string BaseUrl { get; set; }
+
+        /// <summary>
+        /// Gets a single platform
+        /// </summary>
+        /// <param name="id">The platform's ID</param>
+        /// <param name="limitFields">List of field names to include in the response. Use this if you want to reduce the size of the response payload.</param>
+        /// <returns></returns>
         Platform GetPlatform(int id, string[] limitFields = null);
 
         /// <summary>
         /// Gets list of games
         /// </summary>        
         /// <returns></returns>
-        IEnumerable<Platform> GetPlatforms(int page = 1, int pageSize = 20, string[] limitFields = null);
+        IEnumerable<Platform> GetPlatforms(int page = 1, int pageSize = GiantBombBase.DefaultLimit, string[] limitFields = null);
 
         /// <summary>
         /// Get a region
         /// </summary>
         /// <param name="id"></param>
-        /// <param name="limitFields"></param>
+        /// <param name="limitFields">List of field names to include in the response. Use this if you want to reduce the size of the response payload.</param>
         /// <returns></returns>
         Region GetRegion(int id, string[] limitFields = null);
 
         /// <summary>
         /// Gets list of regions
-        /// </summary>        
+        /// </summary>
+        /// <param name="page">The page to retrieve</param>
+        /// <param name="pageSize">The number of results per page (default: 100)</param>
+        /// <param name="limitFields">List of field names to include in the response. Use this if you want to reduce the size of the response payload.</param>
         /// <returns></returns>
-        IEnumerable<Region> GetRegions(int page = 1, int pageSize = 20, string[] limitFields = null);
+        IEnumerable<Region> GetRegions(int page = 1, int pageSize = GiantBombBase.DefaultLimit, string[] limitFields = null);
 
         /// <summary>
         /// Gets a game with the given ID
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">The ID of the game</param>
+        /// <param name="limitFields">List of field names to include in the response. Use this if you want to reduce the size of the response payload.</param>
         /// <returns></returns>
         Game GetGame(int id, string[] limitFields = null);
 
         /// <summary>
         /// Gets list of games
         /// </summary>        
+        /// <param name="page">The page to retrieve</param>
+        /// <param name="pageSize">The number of results per page (default: 100)</param>
+        /// <param name="limitFields">List of field names to include in the response. Use this if you want to reduce the size of the response payload.</param>        
         /// <returns></returns>
-        IEnumerable<Game> GetGames(int page = 1, int pageSize = 20, string[] limitFields = null);
+        IEnumerable<Game> GetGames(int page = 1, int pageSize = GiantBombBase.DefaultLimit, string[] limitFields = null);
 
         /// <summary>
         /// Gets a release with the given ID
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="limitFields"></param>
+        /// <param name="id">The ID of the release</param>
+        /// <param name="limitFields">List of field names to include in the response. Use this if you want to reduce the size of the response payload.</param>
         /// <returns></returns>
         Release GetRelease(int id, string[] limitFields = null);
 
         /// <summary>
         /// Gets all releases for a game with the given ID (multiple requests)
         /// </summary>
-        /// <param name="gameId"></param>
-        /// <param name="limitFields"></param>
+        /// <param name="gameId">The ID of the game to get releases for</param>
+        /// <param name="limitFields">List of field names to include in the response. Use this if you want to reduce the size of the response payload.</param>
         /// <returns></returns>
-        /// <remarks>
-        /// Unfortunately, this requires multiple requests; 1 for the game, 1 for each of the releases
-        /// </remarks>
         IEnumerable<Release> GetReleasesForGame(int gameId, string[] limitFields = null);
 
         /// <summary>
         /// Gets all releases for the given game (multiple requests)
         /// </summary>
-        /// <param name="game"></param>
-        /// <param name="limitFields"></param>
+        /// <param name="game">The game to get releases for</param>
+        /// <param name="limitFields">List of field names to include in the response. Use this if you want to reduce the size of the response payload.</param>
         /// <returns></returns>
-        /// <remarks>
-        /// Unfortunately, this requires multiple requests; 1 for each of the releases
-        /// </remarks>
         IEnumerable<Release> GetReleasesForGame(Game game, string[] limitFields = null); 
 
         /// <summary>
-        /// Base URL of API (defaults to http://api.giantbomb.com)
+        /// Searches for a game by keyword and gets paged results
         /// </summary>
-        string BaseUrl { get; set; }
+        /// <param name="query">The search string</param>
+        /// <param name="page">The page to retrieve</param>
+        /// <param name="pageSize">The number of results per page (default: 100)</param>
+        /// <param name="limitFields">List of field names to include in the response. Use this if you want to reduce the size of the response payload.</param>
+        /// <returns></returns>
+        IEnumerable<Game> SearchForGames(string query, int page = 1, int pageSize = GiantBombBase.DefaultLimit, string[] limitFields = null);
+
+        /// <summary>
+        /// Searches for a game by keyword and recursively gets all results to enable sorting, filtering, etc.
+        /// </summary>
+        /// <param name="query"></param>
+        /// <param name="limitFields">List of field names to include in the response. Use this if you want to reduce the size of the response payload.</param>
+        /// <returns></returns>
+        IEnumerable<Game> SearchForAllGames(string query, string[] limitFields = null);
+
+        /// <summary>
+        /// Gets a list resource request
+        /// </summary>
+        /// <param name="resource">The resource name (e.g. "games")</param>
+        /// <param name="page">The page to fetch (default: 1)</param>
+        /// <param name="pageSize">The number of results per page (default: 100)</param>
+        /// <param name="fieldList">List of field names to include in the response. Use this if you want to reduce the size of the response payload.</param>
+        /// <param name="sortOptions">Results will be sorted by field names in the order you specify</param>
+        /// <param name="filterOptions">Results will be filtered by the field name and value you specify</param>
+        /// <returns></returns>
+        RestRequest GetListResource(string resource, int page = 1, int pageSize = GiantBombBase.DefaultLimit, string[] fieldList = null, IDictionary<string, SortDirection> sortOptions = null, IDictionary<string, object> filterOptions = null);
+
+        /// <summary>
+        /// Gets a typed list from a GiantBomb list resource request
+        /// </summary>
+        /// <typeparam name="TResult">The type of result you expect the request to result in</typeparam>
+        /// <param name="resource">The resource name (e.g. "games")</param>
+        /// <param name="page">The page to fetch (default: 1)</param>
+        /// <param name="pageSize">The number of results per page (default: 100)</param>
+        /// <param name="fieldList">List of field names to include in the response. Use this if you want to reduce the size of the response payload.</param>
+        /// <param name="sortOptions">Results will be sorted by field names in the order you specify</param>
+        /// <param name="filterOptions">Results will be filtered by the field name and value you specify</param>
+        /// <returns>A typed list of TResult</returns>
+        IEnumerable<TResult> GetListResource<TResult>(string resource, int page = 1, int pageSize = GiantBombBase.DefaultLimit, string[] fieldList = null, IDictionary<string, SortDirection> sortOptions = null, IDictionary<string, object> filterOptions = null) where TResult : new();
+        
+        /// <summary>
+        /// Gets a single resource request
+        /// </summary>
+        /// <param name="resource">The resource name (e.g. "game")</param>
+        /// <param name="resourceId">The resource type ID (e.g. 3030)</param>
+        /// <param name="id">The ID of the resource</param>
+        /// <param name="fieldList">List of field names to include in the response. Use this if you want to reduce the size of the response payload.</param>
+        /// <returns>A REST request object</returns>
+        RestRequest GetSingleResource(string resource, int resourceId, int id, string[] fieldList = null);
+
+        /// <summary>
+        /// Returns a single object from a resource
+        /// </summary>
+        /// <typeparam name="TResult">The model of what you expect</typeparam>
+        /// <param name="resource">The resource name (e.g. "game")</param>
+        /// <param name="resourceId">The resource type ID (e.g. 3030)</param>
+        /// <param name="id">The ID of the resource</param>
+        /// <param name="fieldList">List of field names to include in the response. Use this if you want to reduce the size of the response payload.</param>
+        /// <returns>A REST request object</returns>
+        TResult GetSingleResource<TResult>(string resource, int resourceId, int id, string[] fieldList = null) where TResult : class, new();
 
         /// <summary>
         /// Execute a manual REST request
@@ -88,21 +159,5 @@ namespace GiantBomb.Api
         /// </summary>
         /// <param name="request">The RestRequest to execute (will use client credentials)</param>
         IRestResponse Execute(RestRequest request);
-
-        /// <summary>
-        /// Searches for a game by keyword and gets paged results
-        /// </summary>
-        /// <param name="query">Keyword</param>
-        /// <param name="page"></param>
-        /// <param name="pageSize"></param>
-        /// <returns></returns>
-        IEnumerable<Game> SearchForGames(string query, int page = 1, int pageSize = 20, string[] limitFields = null);
-
-        /// <summary>
-        /// Searches for a game by keyword and recursively gets all results to enable sorting, filtering, etc.
-        /// </summary>
-        /// <param name="query"></param>
-        /// <returns></returns>
-        IEnumerable<Game> SearchForAllGames(string query, string[] limitFields = null);
     }
 }

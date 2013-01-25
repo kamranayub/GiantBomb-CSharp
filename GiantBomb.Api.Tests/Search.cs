@@ -32,6 +32,14 @@ namespace GiantBomb.Api.Tests {
         }
 
         [Test]
+        public void search_resource_should_return_all_results_for_okami() {
+            var result = _client.SearchForAllGames("Ōkami").ToList();
+
+            Assert.IsNotNull(result);
+            Assert.GreaterOrEqual(result.Count, 1);
+        }
+
+        [Test]
         public void search_resource_should_limit_fields_to_id_for_one_result() {
             var result = _client.SearchForGames("skyrim", limitFields: new [] { "id" }).ToList();
 

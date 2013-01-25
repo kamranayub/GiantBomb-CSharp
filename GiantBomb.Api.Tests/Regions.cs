@@ -29,7 +29,7 @@ namespace GiantBomb.Api.Tests
         public void regions_resource_should_return_list_of_regions()
         {
 
-            var regions = _client.GetRegions(pageSize: 20);
+            var regions = _client.GetRegions(pageSize: 1);
 
             Assert.IsNotNull(regions);
             Assert.IsTrue(regions.Count() > 1);

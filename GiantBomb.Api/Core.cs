@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -8,7 +9,7 @@ using RestSharp;
 
 namespace GiantBomb.Api {
     public partial class GiantBombRestClient : IGiantBombRestClient {
-        private RestClient _client;
+        private readonly RestClient _client;
 
         /// <summary>
         /// Base URL of API (defaults to http://api.giantbomb.com)
@@ -18,23 +19,34 @@ namespace GiantBomb.Api {
         /// <summary>
         /// Your GiantBomb API token
         /// </summary>
-        private string ApiKey { get; set; }
+        private string ApiKey { get; set; }        
 
-        public GiantBombRestClient(string apiToken) {
-            BaseUrl = "http://api.giantbomb.com/";
+        /// <summary>
+        /// Create a new Rest client with your API token and custom base URL
+        /// </summary>
+        /// <param name="apiToken">Your secret API token</param>
+        /// <param name="baseUrl">The base API URL, for example, pre-release API versions</param>
+        public GiantBombRestClient(string apiToken, Uri baseUrl) {
+            BaseUrl = baseUrl.ToString();
             ApiKey = apiToken;
 
             var assembly = Assembly.GetExecutingAssembly();
-            var assemblyName = new AssemblyName(assembly.FullName);
-            var version = assemblyName.Version;
+            var version = System.Diagnostics.FileVersionInfo.GetVersionInfo(assembly.Location).ProductVersion;
 
-            _client = new RestClient();
-            _client.UserAgent = "giantbomb-csharp/" + version;
-            _client.BaseUrl = BaseUrl;
+            _client = new RestClient
+                          {
+                              UserAgent = "giantbomb-csharp/" + version, 
+                              BaseUrl = BaseUrl
+                          };
 
             // API token is used on every request
             _client.AddDefaultParameter("api_key", ApiKey);
             _client.AddDefaultParameter("format", "json");
+        }
+
+        public GiantBombRestClient(string apiToken)
+            : this(apiToken, new Uri("http://api.giantbomb.com")) {
+
         }
 
 #if FRAMEWORK
@@ -57,12 +69,12 @@ namespace GiantBomb.Api {
         }
 #endif
 
-        protected RestRequest GetListResource(string resource, int page = 1, int pageSize = 20, string[] fieldList = null) {
+        public virtual RestRequest GetListResource(string resource, int page = 1, int pageSize = GiantBombBase.DefaultLimit, string[] fieldList = null, IDictionary<string, SortDirection> sortOptions = null, IDictionary<string, object> filterOptions = null) {
             if (pageSize > 20)
                 throw new ArgumentOutOfRangeException("pageSize", "Page size cannot be greater than 20.");
 
             var request = new RestRequest {
-                Resource = resource + "//",
+                Resource = resource + "/",
                 DateFormat = "yyyy-MM-dd HH:mm:ss"
             };
 
@@ -75,11 +87,35 @@ namespace GiantBomb.Api {
             if (fieldList != null)
                 request.AddParameter("field_list", String.Join(",", fieldList));
 
+            if (sortOptions != null)
+                request.AddParameter("sort", BuildKeyValueListForUrl(sortOptions));
+
+            if (filterOptions != null)
+                request.AddParameter("filter", BuildKeyValueListForUrl(filterOptions));
+
             return request;
         }
 
-        protected IEnumerable<TResult> GetListResource<TResult>(string resource, int page = 1, int pageSize = 20, string[] fieldList = null) where TResult : new() {
-            var request = GetListResource(resource, page, pageSize, fieldList);
+        private string BuildKeyValueListForUrl(IEnumerable<KeyValuePair<string, object>> dictionary)
+        {
+            // format is like <key>:<value>,<key>:<value>
+            return String.Join(",", (from pair in dictionary
+                   select pair.Key + ":" + pair.Value).ToArray());
+        }
+
+        private string BuildKeyValueListForUrl(IEnumerable<KeyValuePair<string, SortDirection>> sortOptions)
+        {
+
+            var sortDictionary = new Dictionary<string, object>();
+
+            foreach(var kv in sortOptions)
+                sortDictionary.Add(kv.Key, kv.Value == SortDirection.Ascending ? "asc" : "desc");
+
+            return BuildKeyValueListForUrl(sortDictionary);
+        }
+
+        public virtual IEnumerable<TResult> GetListResource<TResult>(string resource, int page = 1, int pageSize = GiantBombBase.DefaultLimit, string[] fieldList = null, IDictionary<string, SortDirection> sortOptions = null, IDictionary<string, object> filterOptions = null) where TResult : new() {
+            var request = GetListResource(resource, page, pageSize, fieldList, sortOptions, filterOptions);
             var results = Execute<GiantBombResults<TResult>>(request);
 
             if (results != null && results.StatusCode == GiantBombBase.StatusOk)
@@ -88,13 +124,14 @@ namespace GiantBomb.Api {
             return null;
         }
 
-        protected RestRequest GetSingleResource(string resource, int id, string[] fieldList = null) {
+        public virtual RestRequest GetSingleResource(string resource, int resourceId, int id, string[] fieldList = null) {
             var request = new RestRequest {
-                Resource = resource + "/{Id}//",
+                Resource = resource + "/{ResourceId}-{Id}/",
                 DateFormat = "yyyy-MM-dd HH:mm:ss"
             };
 
-            request.AddUrlSegment("Id", id.ToString());
+            request.AddUrlSegment("ResourceId", resourceId.ToString(CultureInfo.InvariantCulture));
+            request.AddUrlSegment("Id", id.ToString(CultureInfo.InvariantCulture));
 
             if (fieldList != null)
                 request.AddParameter("field_list", String.Join(",", fieldList));
@@ -102,8 +139,8 @@ namespace GiantBomb.Api {
             return request;
         }
 
-        protected TResult GetSingleResource<TResult>(string resource, int id, string[] fieldList = null) where TResult : class, new() {
-            var request = GetSingleResource(resource, id, fieldList);
+        public virtual TResult GetSingleResource<TResult>(string resource, int resourceId, int id, string[] fieldList = null) where TResult : class, new() {
+            var request = GetSingleResource(resource, resourceId, id, fieldList);
             var result = Execute<GiantBombResult<TResult>>(request);
 
             if (result != null && result.StatusCode == GiantBombBase.StatusOk)
@@ -111,5 +148,11 @@ namespace GiantBomb.Api {
 
             return null;
         }
+    }
+
+    public enum SortDirection
+    {
+        Ascending,
+        Descending
     }
 }

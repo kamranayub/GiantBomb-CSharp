@@ -16,7 +16,7 @@ namespace GiantBomb.Api.Tests {
         public void Setup()
         {
             var token = Token.GetToken();
-            _client = new GiantBombRestClient(token);
+            _client = new GiantBombRestClient(token, new Uri("http://seaserpent.giantbomb.com/api"));
         }
     }
 }

@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <version>$version$</version>
     <authors>kayub</authors>
@@ -11,7 +11,10 @@
     <description>RestSharp-based API wrapper for the GiantBomb games database public API</description>
     <copyright>Copyright © kayub 2012</copyright>
     <releaseNotes>
-      Added Genres, Developers, Publishers, and SimilarGames properties to Game object
+      Includes breaking changes: Pre-release support for new GiantBomb APIv2 (Sea-Serpent).
     </releaseNotes>
   </metadata>
+  <files>
+    <file src="readme.txt" target="readme.txt" />
+  </files>
 </package>

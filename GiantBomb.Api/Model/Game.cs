@@ -12,7 +12,7 @@ namespace GiantBomb.Api.Model
         public DateTime DateLastUpdated { get; set; }
         public string Deck { get; set; }
         public string Description { get; set; }
-        public List<Developer> Developers { get; set; } 
+        public List<Developer> Developers { get; set; }        
         public int? ExpectedReleaseMonth { get; set; }
         public int? ExpectedReleaseQuarter { get; set; }
         public int? ExpectedReleaseYear { get; set; }

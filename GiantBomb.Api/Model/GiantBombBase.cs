@@ -10,8 +10,10 @@ namespace GiantBomb.Api.Model {
         public int NumberOfPageResults { get; set; }
         public int NumberOfTotalResults { get; set; }
         public int StatusCode { get; set; }
+        public string Version { get; set; }
 
         public const int StatusOk = 1;
+        public const int DefaultLimit = 100;
     }
 
     public class GiantBombResult<TResult> : GiantBombBase

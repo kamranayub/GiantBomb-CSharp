@@ -33,7 +33,7 @@ namespace GiantBomb.Api.Tests {
         [Test]
         public void platforms_resource_should_return_list_of_platforms() {
 
-            var platforms = _client.GetPlatforms(pageSize: 20);
+            var platforms = _client.GetPlatforms(pageSize: 1);
 
             Assert.IsNotNull(platforms);
             Assert.IsTrue(platforms.Count() > 1);
