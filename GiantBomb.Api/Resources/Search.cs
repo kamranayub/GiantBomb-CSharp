@@ -29,7 +29,7 @@ namespace GiantBomb.Api {
             var results = new List<GameLite>();
             var result = InternalSearchForGames(query, limitFields: limitFields);
 
-            if (result.StatusCode != GiantBombBase.StatusOk)
+            if (result == null || result.StatusCode != GiantBombBase.StatusOk)
                 return null;
 
             results.AddRange(result.Results);

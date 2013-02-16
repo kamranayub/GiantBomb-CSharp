@@ -12,7 +12,7 @@ namespace GiantBomb.Api {
         private readonly RestClient _client;
 
         /// <summary>
-        /// Base URL of API (defaults to http://www.giantbomb.com/)
+        /// Base URL of API (defaults to http://www.giantbomb.com/api/)
         /// </summary>
         public string BaseUrl { get; set; }
 
@@ -48,7 +48,7 @@ namespace GiantBomb.Api {
         }
 
         public GiantBombRestClient(string apiToken)
-            : this(apiToken, new Uri("http://www.giantbomb.com/")) {
+            : this(apiToken, new Uri("http://www.giantbomb.com/api/")) {
 
         }
 
