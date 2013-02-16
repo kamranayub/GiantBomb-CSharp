@@ -16,6 +16,7 @@ GiantBomb-C# 2.0+ is only compatible with GiantBomb APIv2. Keep using the old pa
 	- `Aliases` - newline delimited aliases
 	- `OriginalGameRating`
 * You can now use `GetReleasesForGame()` to directly retrieve releases for a game in one request
+* Using [FastJSON](http://www.codeproject.com/Articles/159450/fastJSON) to deserialize, which is... fast, obviously
 
 ### Breaking Changes/Known Issues
 
