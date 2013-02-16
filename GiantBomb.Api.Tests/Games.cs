@@ -34,7 +34,7 @@ namespace GiantBomb.Api.Tests {
         [Test]
         public void games_resource_should_return_list_of_games() {
 
-            var games = _client.GetGames(pageSize:1);
+            var games = _client.GetGames(pageSize: 2);
 
             Assert.IsNotNull(games);
             Assert.IsTrue(games.Count() > 1);

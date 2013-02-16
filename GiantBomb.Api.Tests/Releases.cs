@@ -18,9 +18,9 @@ namespace GiantBomb.Api.Tests {
             Assert.IsNotNull(release);
             Assert.AreEqual(release.Id, releaseId);
             Assert.IsTrue(release.Name.Contains("Morrowind"));
-            Assert.IsNotNull(release.Platform);
-            Assert.IsNotNull(release.Publishers);
-            Assert.IsNotNull(release.Developers);
+            Assert.IsNotNull(release.Platform, "No platform");
+            Assert.IsNotNull(release.Publishers, "No publishers");
+            Assert.IsNotNull(release.Developers, "No developers");
         }
 
         [Test]
@@ -31,6 +31,7 @@ namespace GiantBomb.Api.Tests {
 
             Assert.IsNotNull(releases);
             Assert.Greater(releases.Count(), 0);
+            Assert.IsTrue(releases.Any(r => r.Id == 29726));
         }
     }
 }

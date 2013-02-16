@@ -12,7 +12,11 @@ namespace GiantBomb.Api {
         }
 
         public IEnumerable<Game> GetGames(int page = 1, int pageSize = GiantBombBase.DefaultLimit, string[] limitFields = null) {
-            return GetListResource<Game>("games", page, pageSize, limitFields);
+            var liteGames = GetListResource<GameLite>("games", page, pageSize, limitFields);
+
+            if (liteGames == null) return null;
+
+            return liteGames.Select(g => g.ToGame());
         }
     }
 }

@@ -12,7 +12,7 @@ namespace GiantBomb.Api {
         private readonly RestClient _client;
 
         /// <summary>
-        /// Base URL of API (defaults to http://api.giantbomb.com)
+        /// Base URL of API (defaults to http://www.giantbomb.com/)
         /// </summary>
         public string BaseUrl { get; set; }
 
@@ -42,10 +42,13 @@ namespace GiantBomb.Api {
             // API token is used on every request
             _client.AddDefaultParameter("api_key", ApiKey);
             _client.AddDefaultParameter("format", "json");
+
+            // Deserializer
+            _client.AddHandler("application/text+json", new FastJsonDeserializer());
         }
 
         public GiantBombRestClient(string apiToken)
-            : this(apiToken, new Uri("http://api.giantbomb.com")) {
+            : this(apiToken, new Uri("http://www.giantbomb.com/")) {
 
         }
 
@@ -70,11 +73,11 @@ namespace GiantBomb.Api {
 #endif
 
         public virtual RestRequest GetListResource(string resource, int page = 1, int pageSize = GiantBombBase.DefaultLimit, string[] fieldList = null, IDictionary<string, SortDirection> sortOptions = null, IDictionary<string, object> filterOptions = null) {
-            if (pageSize > 20)
-                throw new ArgumentOutOfRangeException("pageSize", "Page size cannot be greater than 20.");
+            if (pageSize > GiantBombBase.DefaultLimit)
+                throw new ArgumentOutOfRangeException("pageSize", "Page size cannot be greater than " + GiantBombBase.DefaultLimit + ".");
 
             var request = new RestRequest {
-                Resource = resource + "/",
+                Resource = resource + "//",
                 DateFormat = "yyyy-MM-dd HH:mm:ss"
             };
 
@@ -125,11 +128,11 @@ namespace GiantBomb.Api {
         }
 
         public virtual RestRequest GetSingleResource(string resource, int resourceId, int id, string[] fieldList = null) {
-            var request = new RestRequest {
-                Resource = resource + "/{ResourceId}-{Id}/",
+            var request = new RestRequest {                
+                Resource = resource + "/{ResourceId}-{Id}//",
                 DateFormat = "yyyy-MM-dd HH:mm:ss"
             };
-
+            
             request.AddUrlSegment("ResourceId", resourceId.ToString(CultureInfo.InvariantCulture));
             request.AddUrlSegment("Id", id.ToString(CultureInfo.InvariantCulture));
 

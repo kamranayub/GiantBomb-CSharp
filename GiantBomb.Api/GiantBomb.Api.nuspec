@@ -11,7 +11,7 @@
     <description>RestSharp-based API wrapper for the GiantBomb games database public API</description>
     <copyright>Copyright © kayub 2012</copyright>
     <releaseNotes>
-      Includes breaking changes: Pre-release support for new GiantBomb APIv2 (Sea-Serpent).
+      APIv2 support, contains BREAKING CHANGES. See Project Information.
     </releaseNotes>
   </metadata>
   <files>

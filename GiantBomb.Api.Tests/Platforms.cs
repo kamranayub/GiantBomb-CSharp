@@ -18,8 +18,7 @@ namespace GiantBomb.Api.Tests {
 
             Assert.IsNotNull(platform);
             Assert.AreEqual(platformId, platform.Id);
-            Assert.AreEqual("PC", platform.Name);
-            Assert.AreEqual("PC", platform.Abbreviation);
+            Assert.AreEqual("PC", platform.Name);            
             Assert.IsNotNull(platform.ApiDetailUrl);
             Assert.IsNotNull(platform.DateAdded);
             Assert.IsNotNull(platform.DateLastUpdated);
@@ -33,7 +32,7 @@ namespace GiantBomb.Api.Tests {
         [Test]
         public void platforms_resource_should_return_list_of_platforms() {
 
-            var platforms = _client.GetPlatforms(pageSize: 1);
+            var platforms = _client.GetPlatforms(pageSize: 2);
 
             Assert.IsNotNull(platforms);
             Assert.IsTrue(platforms.Count() > 1);
