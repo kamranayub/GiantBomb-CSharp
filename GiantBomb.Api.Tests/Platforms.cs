@@ -18,10 +18,11 @@ namespace GiantBomb.Api.Tests {
 
             Assert.IsNotNull(platform);
             Assert.AreEqual(platformId, platform.Id);
-            Assert.AreEqual("PC", platform.Name);            
+            Assert.AreEqual("PC", platform.Name);    
+            Assert.AreEqual("PC", platform.Abbreviation);
             Assert.IsNotNull(platform.ApiDetailUrl);
-            Assert.IsNotNull(platform.DateAdded);
-            Assert.IsNotNull(platform.DateLastUpdated);
+            Assert.IsTrue(platform.DateAdded > DateTime.MinValue);
+            Assert.IsTrue(platform.DateLastUpdated > DateTime.MinValue);
             Assert.IsNotNull(platform.Deck);
             Assert.IsNotNull(platform.Description);
             Assert.IsNotNull(platform.Image);            

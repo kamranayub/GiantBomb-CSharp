@@ -20,9 +20,7 @@ GiantBomb-C# 2.0+ is only compatible with GiantBomb APIv2. Keep using the old pa
 
 ### Breaking Changes/Known Issues
 
-* Platforms return `null` for abbreviation (#11)
-* Platforms `LastUpdated` is spelled incorrectly on the API (#10)
-* Releases don't return all associations (#9)
+* Platform/Release `DateLastUpdated` is spelled incorrectly on the API (#10)
 
 ## Readme
 

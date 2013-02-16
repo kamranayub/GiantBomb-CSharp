@@ -11,22 +11,22 @@ namespace GiantBomb.Api {
             var result = InternalSearchForGames(query, page, pageSize, limitFields);
 
             if (result.StatusCode == GiantBombBase.StatusOk)
-                return result.Results.Select(g => g.ToGame());
+                return result.Results;
 
             return null;
         }
 
-        internal GiantBombResults<GameLite> InternalSearchForGames(string query, int page = 1, int pageSize = GiantBombBase.DefaultLimit, string[] limitFields = null) {
+        internal GiantBombResults<Game> InternalSearchForGames(string query, int page = 1, int pageSize = GiantBombBase.DefaultLimit, string[] limitFields = null) {
             var request = GetListResource("search", page, pageSize, limitFields);
 
             request.AddParameter("query", query);
             request.AddParameter("resources", "game");
 
-            return Execute<GiantBombResults<GameLite>>(request);
+            return Execute<GiantBombResults<Game>>(request);
         }
 
         public IEnumerable<Game> SearchForAllGames(string query, string[] limitFields = null) {
-            var results = new List<GameLite>();
+            var results = new List<Game>();
             var result = InternalSearchForGames(query, limitFields: limitFields);
 
             if (result == null || result.StatusCode != GiantBombBase.StatusOk)
@@ -48,7 +48,7 @@ namespace GiantBomb.Api {
                 }
             }
 
-            return results.Select(g => g.ToGame());
+            return results;
         }
     }
 }

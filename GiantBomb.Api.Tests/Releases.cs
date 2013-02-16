@@ -18,6 +18,8 @@ namespace GiantBomb.Api.Tests {
             Assert.IsNotNull(release);
             Assert.AreEqual(release.Id, releaseId);
             Assert.IsTrue(release.Name.Contains("Morrowind"));
+            Assert.IsTrue(release.DateAdded > DateTime.MinValue);
+            Assert.IsTrue(release.DateLastUpdated > DateTime.MinValue);
             Assert.IsNotNull(release.Platform, "No platform");
             Assert.IsNotNull(release.Publishers, "No publishers");
             Assert.IsNotNull(release.Developers, "No developers");

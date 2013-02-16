@@ -11,7 +11,7 @@
     <description>RestSharp-based API wrapper for the GiantBomb games database public API</description>
     <copyright>Copyright © kayub 2012</copyright>
     <releaseNotes>
-      APIv2 support, contains BREAKING CHANGES. See Project Information.
+      Updated with fixes, see README.
     </releaseNotes>
   </metadata>
   <files>
