@@ -18,10 +18,6 @@ GiantBomb-C# 2.0+ is only compatible with GiantBomb APIv2. Keep using the old pa
 * You can now use `GetReleasesForGame()` to directly retrieve releases for a game in one request
 * Using [FastJSON](http://www.codeproject.com/Articles/159450/fastJSON) to deserialize, which is... fast, obviously
 
-### Breaking Changes/Known Issues
-
-* Platform/Release `DateLastUpdated` is spelled incorrectly on the API (#10)
-
 ## Readme
 
 This library aims to wrap the GiantBomb REST API in C# with strongly-typed models and is built on top of [RestSharp](https://github.com/johnsheehan/RestSharp).
