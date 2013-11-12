@@ -1,6 +1,10 @@
 GiantBomb C#
 ------------
 
+## 2.0.3
+
+- Fixes issue with search paging (`offset` vs. `page` parameter)
+
 ## API v2 Support
 
 GiantBomb-C# 2.0+ is only compatible with GiantBomb APIv2. Keep using the old packages if you need v1 support, as there are breaking changes in v2!

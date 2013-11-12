@@ -13,6 +13,9 @@ namespace GiantBomb.Api.Tests {
             Assert.IsNotNull(result);
             Assert.AreEqual(1, result.Count);
             Assert.AreEqual(33394, result.First().Id);
+            Assert.IsNotNull(result.First().Platforms);
+            Assert.IsNotNull(result.First().Platforms.First());
+            Assert.IsTrue(result.First().Platforms.First().Id > 0, "Platform is invalid");
         }
 
         [Test]
@@ -57,6 +60,17 @@ namespace GiantBomb.Api.Tests {
             Assert.GreaterOrEqual(result.Count, 43);
             Assert.IsTrue(result.All(g => g.Id > 0));
             Assert.IsTrue(result.All(g => string.IsNullOrWhiteSpace(g.Name)));
+        }
+
+        /// <summary>
+        /// BUGFIX: "mario" returns dup resultset
+        /// </summary>
+        [Test]
+        public void search_resource_should_not_return_duplicates_for_mario() {
+            var result = _client.SearchForAllGames("mario", limitFields: new[] { "id" }).ToList();
+
+            Assert.IsNotNull(result);
+            Assert.IsFalse(result.Any(r => result.Count(r2 => r2.Id == r.Id) > 1), "Results contain duplicate IDs");
         }
     }
 }

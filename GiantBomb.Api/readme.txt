@@ -1,6 +1,10 @@
 GiantBomb C#
 ------------
 
+## 2.0.3
+
+- Fixes issue with search paging (`offset` vs. `page` parameter)
+
 ## API v2 Support
 
 GiantBomb-C# 2.0+ is only compatible with GiantBomb APIv2. Keep using the old packages if you need v1 support, as there are breaking changes in v2!
@@ -17,10 +21,6 @@ GiantBomb-C# 2.0+ is only compatible with GiantBomb APIv2. Keep using the old pa
 	- `OriginalGameRating`
 * You can now use `GetReleasesForGame()` to directly retrieve releases for a game in one request
 * Using [FastJSON](http://www.codeproject.com/Articles/159450/fastJSON) to deserialize, which is... fast, obviously
-
-### Breaking Changes/Known Issues
-
-* Platform/Release `DateLastUpdated` is spelled incorrectly on the API (#10)
 
 ## Readme
 

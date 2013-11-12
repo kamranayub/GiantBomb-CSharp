@@ -82,7 +82,14 @@ namespace GiantBomb.Api {
             };
 
             if (page > 1) {
-                request.AddParameter("offset", pageSize * (page - 1));
+
+                // HACK: Giant Bomb uses `page` for search instead of `offset`, assholes
+                if (resource == "search") {
+                    request.AddParameter("page", page);
+                }
+                else {
+                    request.AddParameter("offset", pageSize*(page - 1));
+                }
             }
 
             request.AddParameter("limit", pageSize);
