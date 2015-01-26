@@ -9,7 +9,7 @@
     <projectUrl>http://github.com/kamranayub/GiantBomb-CSharp</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>RestSharp-based API wrapper for the GiantBomb games database public API</description>
-    <copyright>Copyright © kayub 2012</copyright>
+    <copyright>Copyright © kayub 2015</copyright>
     <releaseNotes>
       Updated with fixes, see README.
     </releaseNotes>

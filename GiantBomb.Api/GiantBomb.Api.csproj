@@ -36,9 +36,9 @@
     <Reference Include="fastJSON">
       <HintPath>..\Dependencies\fastJSON.dll</HintPath>
     </Reference>
-    <Reference Include="RestSharp, Version=104.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="RestSharp, Version=105.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\RestSharp.104.1\lib\net4\RestSharp.dll</HintPath>
+      <HintPath>..\packages\RestSharp.105.0.1\lib\net4\RestSharp.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -51,6 +51,8 @@
   <ItemGroup>
     <Compile Include="Core.cs" />
     <Compile Include="FastJsonDeserializer.cs" />
+    <Compile Include="GiantBombApiException.cs" />
+    <Compile Include="Model\Franchise.cs" />
     <Compile Include="ResourceTypes.cs" />
     <Compile Include="Resources\Games.cs" />
     <Compile Include="IGiantBombRestClient.cs" />

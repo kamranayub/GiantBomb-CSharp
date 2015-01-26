@@ -32,11 +32,11 @@ namespace GiantBomb.Api {
 
             var assembly = Assembly.GetExecutingAssembly();
             var version = System.Diagnostics.FileVersionInfo.GetVersionInfo(assembly.Location).ProductVersion;
-
+            
             _client = new RestClient
                           {
-                              UserAgent = "giantbomb-csharp/" + version, 
-                              BaseUrl = BaseUrl
+                              UserAgent = "giantbomb-csharp/" + version,
+                              BaseUrl = baseUrl
                           };
 
             // API token is used on every request
@@ -58,7 +58,7 @@ namespace GiantBomb.Api {
         /// </summary>
         /// <typeparam name="T">The type of object to create and populate with the returned data.</typeparam>
         /// <param name="request">The RestRequest to execute (will use client credentials)</param>
-        public T Execute<T>(RestRequest request) where T : new() {
+        public virtual T Execute<T>(RestRequest request) where T : new() {
             var response = _client.Execute<T>(request);
             return response.Data;
         }
@@ -67,7 +67,7 @@ namespace GiantBomb.Api {
         /// Execute a manual REST request
         /// </summary>
         /// <param name="request">The RestRequest to execute (will use client credentials)</param>
-        public IRestResponse Execute(RestRequest request) {
+        public virtual IRestResponse Execute(RestRequest request) {
             return _client.Execute(request);
         }
 #endif
@@ -77,13 +77,13 @@ namespace GiantBomb.Api {
                 throw new ArgumentOutOfRangeException("pageSize", "Page size cannot be greater than " + GiantBombBase.DefaultLimit + ".");
 
             var request = new RestRequest {
-                Resource = resource + "//",
+                Resource = resource + "/",
                 DateFormat = "yyyy-MM-dd HH:mm:ss"
             };
 
             if (page > 1) {
 
-                // HACK: Giant Bomb uses `page` for search instead of `offset`, assholes
+                // HACK: Giant Bomb uses `page` for search instead of `offset`
                 if (resource == "search") {
                     request.AddParameter("page", page);
                 }
@@ -131,12 +131,15 @@ namespace GiantBomb.Api {
             if (results != null && results.StatusCode == GiantBombBase.StatusOk)
                 return results.Results;
 
+            if (results != null && results.StatusCode != GiantBombBase.StatusOk)
+                throw new GiantBombApiException(results.StatusCode, results.Error);
+
             return null;
         }
 
         public virtual RestRequest GetSingleResource(string resource, int resourceId, int id, string[] fieldList = null) {
             var request = new RestRequest {                
-                Resource = resource + "/{ResourceId}-{Id}//",
+                Resource = resource + "/{ResourceId}-{Id}/",
                 DateFormat = "yyyy-MM-dd HH:mm:ss"
             };
             
@@ -155,6 +158,9 @@ namespace GiantBomb.Api {
 
             if (result != null && result.StatusCode == GiantBombBase.StatusOk)
                 return result.Results;
+
+            if (result != null && result.StatusCode != GiantBombBase.StatusOk)
+                throw new GiantBombApiException(result.StatusCode, result.Error);
 
             return null;
         }

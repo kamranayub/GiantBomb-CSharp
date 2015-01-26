@@ -21,6 +21,7 @@ namespace GiantBomb.Api.Model {
         public int? ExpectedReleaseMonth { get; set; }
         public int? ExpectedReleaseQuarter { get; set; }
         public int? ExpectedReleaseYear { get; set; }
+        public List<Franchise> Franchises { get; set; }
         public List<Genre> Genres { get; set; }
         public Image Image { get; set; }
         public List<Image> Images { get; set; }

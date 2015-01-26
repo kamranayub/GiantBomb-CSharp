@@ -13,6 +13,11 @@ namespace GiantBomb.Api.Model {
         public string Version { get; set; }
 
         public const int StatusOk = 1;
+        public const int StatusApiKeyInvalid = 100;
+        public const int StatusObjectNotFound = 101;
+        public const int StatusErrorUrlFormat = 102;
+        public const int StatusFilterError = 104;
+        public const int StatusRateLimitExceeded = 107;
         public const int DefaultLimit = 100;
     }
 

@@ -1,6 +1,20 @@
 GiantBomb C#
 ------------
 
+## 2.1.0
+
+- Add new fields:
+    - `Platform.Aliases`
+    - `Platform.InstallBase`
+    - `Platform.OnlineOnly`
+    - `Platform.OriginalPrice`
+    - `Game.Franchises`
+    - `Release.Game`
+- Add exception handling and wrapping for GiantBomb API errors (`GiantBombApiException` class)
+    - For example, exceeding the 400 requests in 15 minutes rate limit
+- Allow overriding `Execute` methods
+- Update RestSharp to 105 (fixes #13)
+
 ## 2.0.3
 
 - Fixes issue with search paging (`offset` vs. `page` parameter)
