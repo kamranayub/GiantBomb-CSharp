@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Net;
 using System.Reflection;
 using System.Text;
+using System.Threading.Tasks;
 using GiantBomb.Api.Model;
 using RestSharp;
 
@@ -19,7 +21,7 @@ namespace GiantBomb.Api {
         /// <summary>
         /// Your GiantBomb API token
         /// </summary>
-        private string ApiKey { get; set; }        
+        private string ApiKey { get; set; }
 
         /// <summary>
         /// Create a new Rest client with your API token and custom base URL
@@ -32,7 +34,7 @@ namespace GiantBomb.Api {
 
             var assembly = Assembly.GetExecutingAssembly();
             var version = System.Diagnostics.FileVersionInfo.GetVersionInfo(assembly.Location).ProductVersion;
-            
+
             _client = new RestClient
                           {
                               UserAgent = "giantbomb-csharp/" + version,
@@ -58,8 +60,29 @@ namespace GiantBomb.Api {
         /// </summary>
         /// <typeparam name="T">The type of object to create and populate with the returned data.</typeparam>
         /// <param name="request">The RestRequest to execute (will use client credentials)</param>
-        public virtual T Execute<T>(RestRequest request) where T : new() {
-            var response = _client.Execute<T>(request);
+        public virtual T Execute<T>(RestRequest request) where T : new()
+        {
+            return ExecuteAsync<T>(request).Result;
+        }
+
+        /// <summary>
+        /// Execute a manual REST request (async)
+        /// </summary>
+        /// <typeparam name="T">The type of object to create and populate with the returned data.</typeparam>
+        /// <param name="request">The RestRequest to execute (will use client credentials)</param>
+        public virtual async Task<T> ExecuteAsync<T>(RestRequest request) where T : new()
+        {
+            var response = await _client.ExecuteTaskAsync<T>(request);
+
+            if (response.Data == null)
+            {
+                throw new GiantBombHttpException(response.Content);
+            }
+            else if (response.StatusCode != HttpStatusCode.OK)
+            {
+                throw new GiantBombHttpException(response.ErrorMessage + ": " + response.Content);
+            }
+
             return response.Data;
         }
 
@@ -67,8 +90,18 @@ namespace GiantBomb.Api {
         /// Execute a manual REST request
         /// </summary>
         /// <param name="request">The RestRequest to execute (will use client credentials)</param>
-        public virtual IRestResponse Execute(RestRequest request) {
-            return _client.Execute(request);
+        public virtual IRestResponse Execute(RestRequest request)
+        {
+            return ExecuteAsync(request).Result;
+        }
+
+        /// <summary>
+        /// Execute a manual REST request (async)
+        /// </summary>
+        /// <param name="request">The RestRequest to execute (will use client credentials)</param>
+        public virtual async Task<IRestResponse> ExecuteAsync(RestRequest request)
+        {
+            return await _client.ExecuteTaskAsync(request);
         }
 #endif
 
@@ -124,9 +157,33 @@ namespace GiantBomb.Api {
             return BuildKeyValueListForUrl(sortDictionary);
         }
 
-        public virtual IEnumerable<TResult> GetListResource<TResult>(string resource, int page = 1, int pageSize = GiantBombBase.DefaultLimit, string[] fieldList = null, IDictionary<string, SortDirection> sortOptions = null, IDictionary<string, object> filterOptions = null) where TResult : new() {
+        public virtual RestRequest GetSingleResource(string resource, int resourceId, int id, string[] fieldList = null) {
+            var request = new RestRequest {
+                Resource = resource + "/{ResourceId}-{Id}/",
+                DateFormat = "yyyy-MM-dd HH:mm:ss"
+            };
+
+            request.AddUrlSegment("ResourceId", resourceId.ToString(CultureInfo.InvariantCulture));
+            request.AddUrlSegment("Id", id.ToString(CultureInfo.InvariantCulture));
+
+            if (fieldList != null)
+                request.AddParameter("field_list", String.Join(",", fieldList));
+
+            return request;
+        }
+
+        public virtual IEnumerable<TResult> GetListResource<TResult>(string resource, int page = 1,
+            int pageSize = GiantBombBase.DefaultLimit, string[] fieldList = null,
+            IDictionary<string, SortDirection> sortOptions = null, IDictionary<string, object> filterOptions = null)
+            where TResult : new()
+        {
+            return GetListResourceAsync<TResult>(resource, page, pageSize, fieldList, sortOptions, filterOptions).Result;
+        }
+
+        public virtual async Task<IEnumerable<TResult>> GetListResourceAsync<TResult>(string resource, int page = 1, int pageSize = GiantBombBase.DefaultLimit, string[] fieldList = null, IDictionary<string, SortDirection> sortOptions = null, IDictionary<string, object> filterOptions = null) where TResult : new()
+        {
             var request = GetListResource(resource, page, pageSize, fieldList, sortOptions, filterOptions);
-            var results = Execute<GiantBombResults<TResult>>(request);
+            var results = await ExecuteAsync<GiantBombResults<TResult>>(request);
 
             if (results != null && results.StatusCode == GiantBombBase.StatusOk)
                 return results.Results;
@@ -137,24 +194,15 @@ namespace GiantBomb.Api {
             return null;
         }
 
-        public virtual RestRequest GetSingleResource(string resource, int resourceId, int id, string[] fieldList = null) {
-            var request = new RestRequest {                
-                Resource = resource + "/{ResourceId}-{Id}/",
-                DateFormat = "yyyy-MM-dd HH:mm:ss"
-            };
-            
-            request.AddUrlSegment("ResourceId", resourceId.ToString(CultureInfo.InvariantCulture));
-            request.AddUrlSegment("Id", id.ToString(CultureInfo.InvariantCulture));
-
-            if (fieldList != null)
-                request.AddParameter("field_list", String.Join(",", fieldList));
-
-            return request;
+        public virtual TResult GetSingleResource<TResult>(string resource, int resourceId, int id,
+            string[] fieldList = null) where TResult : class, new()
+        {
+            return GetSingleResourceAsync<TResult>(resource, resourceId, id, fieldList).Result;
         }
 
-        public virtual TResult GetSingleResource<TResult>(string resource, int resourceId, int id, string[] fieldList = null) where TResult : class, new() {
+        public virtual async Task<TResult> GetSingleResourceAsync<TResult>(string resource, int resourceId, int id, string[] fieldList = null) where TResult : class, new() {
             var request = GetSingleResource(resource, resourceId, id, fieldList);
-            var result = Execute<GiantBombResult<TResult>>(request);
+            var result = await ExecuteAsync<GiantBombResult<TResult>>(request);
 
             if (result != null && result.StatusCode == GiantBombBase.StatusOk)
                 return result.Results;

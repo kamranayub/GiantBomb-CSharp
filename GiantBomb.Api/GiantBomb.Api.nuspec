@@ -6,13 +6,15 @@
     <owners>kayub</owners>
     <id>GiantBomb.Api</id>
     <title>GiantBomb API (C#)</title>
-    <projectUrl>http://github.com/kamranayub/GiantBomb-CSharp</projectUrl>
+    <projectUrl>https://github.com/kamranayub/GiantBomb-CSharp</projectUrl>
+    <licenseUrl>https://github.com/kamranayub/GiantBomb-CSharp/blob/master/LICENSE.txt</licenseUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>RestSharp-based API wrapper for the GiantBomb games database public API</description>
     <copyright>Copyright © kayub 2015</copyright>
     <releaseNotes>
-      Updated with fixes, see README.
+      For changes, see README.
     </releaseNotes>
+    <tags>giantbomb</tags>
   </metadata>
   <files>
     <file src="readme.txt" target="readme.txt" />

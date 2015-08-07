@@ -1,6 +1,16 @@
 GiantBomb C#
 ------------
 
+## 2.2.0
+
+- Upgrade to .NET 4.5.2 (you should too!)
+- Upgrade RestSharp to 105.1
+- `async/await` support for all methods
+- Better fatal error handling
+  - If GiantBomb returns a non-JSON response, the library will throw a `GiantBombHttpException`
+    containing the raw response body
+- **FIX:** Issue with searches returning duplicate games from GiantBomb
+
 ## 2.1.0
 
 - Add new fields:

@@ -34,4 +34,17 @@ namespace GiantBomb.Api.Model {
         public string SiteDetailUrl { get; set; }
         public List<Game> SimilarGames { get; set; }
     }
+
+    public class GameDistinctComparer : IEqualityComparer<Game>
+    {
+        public bool Equals(Game x, Game y)
+        {
+            return x.Id == y.Id;
+        }
+
+        public int GetHashCode(Game obj)
+        {
+            return obj.Id.GetHashCode();
+        }
+    }
 }

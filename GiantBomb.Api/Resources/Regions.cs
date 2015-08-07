@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using GiantBomb.Api.Model;
 
 namespace GiantBomb.Api
@@ -10,12 +11,22 @@ namespace GiantBomb.Api
     {
         public Region GetRegion(int id, string[] limitFields = null)
         {
-            return GetSingleResource<Region>("region", ResourceTypes.Regions, id, limitFields);
+            return GetRegionAsync(id, limitFields).Result;
+        }
+
+        public async Task<Region> GetRegionAsync(int id, string[] limitFields = null)
+        {
+            return await GetSingleResourceAsync<Region>("region", ResourceTypes.Regions, id, limitFields);
         }
 
         public IEnumerable<Region> GetRegions(int page = 1, int pageSize = GiantBombBase.DefaultLimit, string[] limitFields = null)
         {
-            return GetListResource<Region>("regions", page, pageSize, limitFields);
+            return GetRegionsAsync(page, pageSize, limitFields).Result;
+        }
+
+        public async Task<IEnumerable<Region>> GetRegionsAsync(int page = 1, int pageSize = GiantBombBase.DefaultLimit, string[] limitFields = null)
+        {
+            return await GetListResourceAsync<Region>("regions", page, pageSize, limitFields);
         }
     }
 }
