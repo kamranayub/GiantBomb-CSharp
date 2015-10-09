@@ -1,6 +1,10 @@
 GiantBomb C#
 ------------
 
+## 2.2.1
+
+- Better error handling for API exceptions
+
 ## 2.2.0
 
 - Upgrade to .NET 4.5.2 (you should too!)

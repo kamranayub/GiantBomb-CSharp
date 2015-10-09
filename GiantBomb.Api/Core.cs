@@ -76,7 +76,14 @@ namespace GiantBomb.Api {
 
             if (response.Data == null)
             {
-                throw new GiantBombHttpException(response.Content);
+                if (response.ErrorException != null)
+                {
+                    throw new GiantBombHttpException(response.ErrorMessage, response.ErrorException);
+                }
+                else
+                {
+                    throw new GiantBombHttpException("Bad content: " + response.Content);
+                }                
             }
             else if (response.StatusCode != HttpStatusCode.OK)
             {
