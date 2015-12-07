@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using GiantBomb.Api.Model;
 
@@ -11,22 +8,22 @@ namespace GiantBomb.Api
     {
         public Region GetRegion(int id, string[] limitFields = null)
         {
-            return GetRegionAsync(id, limitFields).Result;
+            return GetRegionAsync(id, limitFields).WaitForResult();
         }
 
-        public async Task<Region> GetRegionAsync(int id, string[] limitFields = null)
+        public Task<Region> GetRegionAsync(int id, string[] limitFields = null)
         {
-            return await GetSingleResourceAsync<Region>("region", ResourceTypes.Regions, id, limitFields);
+            return GetSingleResourceAsync<Region>("region", ResourceTypes.Regions, id, limitFields);
         }
 
         public IEnumerable<Region> GetRegions(int page = 1, int pageSize = GiantBombBase.DefaultLimit, string[] limitFields = null)
         {
-            return GetRegionsAsync(page, pageSize, limitFields).Result;
+            return GetRegionsAsync(page, pageSize, limitFields).WaitForResult();
         }
 
-        public async Task<IEnumerable<Region>> GetRegionsAsync(int page = 1, int pageSize = GiantBombBase.DefaultLimit, string[] limitFields = null)
+        public Task<IEnumerable<Region>> GetRegionsAsync(int page = 1, int pageSize = GiantBombBase.DefaultLimit, string[] limitFields = null)
         {
-            return await GetListResourceAsync<Region>("regions", page, pageSize, limitFields);
+            return GetListResourceAsync<Region>("regions", page, pageSize, limitFields);
         }
     }
 }

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using GiantBomb.Api.Model;
 
@@ -10,26 +7,26 @@ namespace GiantBomb.Api {
 
         public Release GetRelease(int id, string[] limitFields = null)
         {
-            return GetReleaseAsync(id, limitFields).Result;
+            return GetReleaseAsync(id, limitFields).WaitForResult();
         }
 
-        public async Task<Release> GetReleaseAsync(int id, string[] limitFields = null) {
-            return await GetSingleResourceAsync<Release>("release", ResourceTypes.Releases, id, limitFields);
+        public Task<Release> GetReleaseAsync(int id, string[] limitFields = null) {
+            return GetSingleResourceAsync<Release>("release", ResourceTypes.Releases, id, limitFields);
         }
 
         public IEnumerable<Release> GetReleasesForGame(int gameId, string[] limitFields = null)
         {
-            return GetReleasesForGameAsync(gameId, limitFields).Result;
+            return GetReleasesForGameAsync(gameId, limitFields).WaitForResult();
         }
 
-        public async Task<IEnumerable<Release>> GetReleasesForGameAsync(int gameId, string[] limitFields = null)
+        public Task<IEnumerable<Release>> GetReleasesForGameAsync(int gameId, string[] limitFields = null)
         {
             var filter = new Dictionary<string, object>()
                              {
                                  {"game", gameId}
                              };
 
-            return await GetListResourceAsync<Release>("releases", fieldList: limitFields, filterOptions: filter);
+            return GetListResourceAsync<Release>("releases", fieldList: limitFields, filterOptions: filter);
         }
 
         public IEnumerable<Release> GetReleasesForGame(Game game, string[] limitFields = null)
