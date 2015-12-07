@@ -4,7 +4,6 @@ using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
 using GiantBomb.Api.Model;
 using RestSharp;
@@ -62,7 +61,7 @@ namespace GiantBomb.Api {
         /// <param name="request">The RestRequest to execute (will use client credentials)</param>
         public virtual T Execute<T>(RestRequest request) where T : new()
         {
-            return ExecuteAsync<T>(request).Result;
+            return ExecuteAsync<T>(request).WaitForResult();
         }
 
         /// <summary>
@@ -70,27 +69,30 @@ namespace GiantBomb.Api {
         /// </summary>
         /// <typeparam name="T">The type of object to create and populate with the returned data.</typeparam>
         /// <param name="request">The RestRequest to execute (will use client credentials)</param>
-        public virtual async Task<T> ExecuteAsync<T>(RestRequest request) where T : new()
+        public virtual Task<T> ExecuteAsync<T>(RestRequest request) where T : new()
         {
-            var response = await _client.ExecuteTaskAsync<T>(request);
-
-            if (response.Data == null)
-            {
-                if (response.ErrorException != null)
+            return _client.ExecuteTaskAsync<T>(request).
+                ContinueWith(task =>
                 {
-                    throw new GiantBombHttpException(response.ErrorMessage, response.ErrorException);
-                }
-                else
-                {
-                    throw new GiantBombHttpException("Bad content: " + response.Content);
-                }                
-            }
-            else if (response.StatusCode != HttpStatusCode.OK)
-            {
-                throw new GiantBombHttpException(response.ErrorMessage + ": " + response.Content);
-            }
+                    var response = task.Result;
+                    if (response.Data == null)
+                    {
+                        if (response.ErrorException != null)
+                        {
+                            throw new GiantBombHttpException(response.ErrorMessage, response.ErrorException);
+                        }
+                        else
+                        {
+                            throw new GiantBombHttpException("Bad content: " + response.Content);
+                        }
+                    }
+                    else if (response.StatusCode != HttpStatusCode.OK)
+                    {
+                        throw new GiantBombHttpException(response.ErrorMessage + ": " + response.Content);
+                    }
 
-            return response.Data;
+                    return response.Data;
+                });
         }
 
         /// <summary>
@@ -99,16 +101,16 @@ namespace GiantBomb.Api {
         /// <param name="request">The RestRequest to execute (will use client credentials)</param>
         public virtual IRestResponse Execute(RestRequest request)
         {
-            return ExecuteAsync(request).Result;
+            return ExecuteAsync(request).WaitForResult();
         }
 
         /// <summary>
         /// Execute a manual REST request (async)
         /// </summary>
         /// <param name="request">The RestRequest to execute (will use client credentials)</param>
-        public virtual async Task<IRestResponse> ExecuteAsync(RestRequest request)
+        public virtual Task<IRestResponse> ExecuteAsync(RestRequest request)
         {
-            return await _client.ExecuteTaskAsync(request);
+            return _client.ExecuteTaskAsync(request);
         }
 #endif
 
@@ -184,40 +186,46 @@ namespace GiantBomb.Api {
             IDictionary<string, SortDirection> sortOptions = null, IDictionary<string, object> filterOptions = null)
             where TResult : new()
         {
-            return GetListResourceAsync<TResult>(resource, page, pageSize, fieldList, sortOptions, filterOptions).Result;
+            return GetListResourceAsync<TResult>(resource, page, pageSize, fieldList, sortOptions, filterOptions).WaitForResult();
         }
 
-        public virtual async Task<IEnumerable<TResult>> GetListResourceAsync<TResult>(string resource, int page = 1, int pageSize = GiantBombBase.DefaultLimit, string[] fieldList = null, IDictionary<string, SortDirection> sortOptions = null, IDictionary<string, object> filterOptions = null) where TResult : new()
+        public virtual Task<IEnumerable<TResult>> GetListResourceAsync<TResult>(string resource, int page = 1, int pageSize = GiantBombBase.DefaultLimit, string[] fieldList = null, IDictionary<string, SortDirection> sortOptions = null, IDictionary<string, object> filterOptions = null) where TResult : new()
         {
             var request = GetListResource(resource, page, pageSize, fieldList, sortOptions, filterOptions);
-            var results = await ExecuteAsync<GiantBombResults<TResult>>(request);
+            return ExecuteAsync<GiantBombResults<TResult>>(request)
+                .ContinueWith<IEnumerable<TResult>>(task =>
+                {
+                    var results = task.Result;
+                    if (results != null && results.StatusCode == GiantBombBase.StatusOk)
+                        return results.Results;
 
-            if (results != null && results.StatusCode == GiantBombBase.StatusOk)
-                return results.Results;
+                    if (results != null && results.StatusCode != GiantBombBase.StatusOk)
+                        throw new GiantBombApiException(results.StatusCode, results.Error);
 
-            if (results != null && results.StatusCode != GiantBombBase.StatusOk)
-                throw new GiantBombApiException(results.StatusCode, results.Error);
-
-            return null;
+                    return null;
+                });
         }
 
         public virtual TResult GetSingleResource<TResult>(string resource, int resourceId, int id,
             string[] fieldList = null) where TResult : class, new()
         {
-            return GetSingleResourceAsync<TResult>(resource, resourceId, id, fieldList).Result;
+            return GetSingleResourceAsync<TResult>(resource, resourceId, id, fieldList).WaitForResult();
         }
 
-        public virtual async Task<TResult> GetSingleResourceAsync<TResult>(string resource, int resourceId, int id, string[] fieldList = null) where TResult : class, new() {
+        public virtual Task<TResult> GetSingleResourceAsync<TResult>(string resource, int resourceId, int id, string[] fieldList = null) where TResult : class, new() {
             var request = GetSingleResource(resource, resourceId, id, fieldList);
-            var result = await ExecuteAsync<GiantBombResult<TResult>>(request);
+            return ExecuteAsync<GiantBombResult<TResult>>(request)
+                .ContinueWith(task =>
+                {
+                    var result = task.Result;
+                    if (result != null && result.StatusCode == GiantBombBase.StatusOk)
+                        return result.Results;
 
-            if (result != null && result.StatusCode == GiantBombBase.StatusOk)
-                return result.Results;
+                    if (result != null && result.StatusCode != GiantBombBase.StatusOk)
+                        throw new GiantBombApiException(result.StatusCode, result.Error);
 
-            if (result != null && result.StatusCode != GiantBombBase.StatusOk)
-                throw new GiantBombApiException(result.StatusCode, result.Error);
-
-            return null;
+                    return null;
+                });
         }
     }
 

@@ -1,6 +1,10 @@
 GiantBomb C#
 ------------
 
+## 2.3.0
+- Updated to .NET Framework 4.6
+- Total overhaul of async code to be truly async using ContinueWith, no more 'await' in the library
+
 ## 2.2.1
 
 - Better error handling for API exceptions
