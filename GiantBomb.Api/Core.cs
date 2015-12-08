@@ -51,8 +51,7 @@ namespace GiantBomb.Api {
             : this(apiToken, new Uri("http://www.giantbomb.com/api/")) {
 
         }
-
-#if FRAMEWORK
+        
         /// <summary>
         /// Execute a manual REST request
         /// </summary>
@@ -126,7 +125,6 @@ namespace GiantBomb.Api {
         {
             return await _client.ExecuteTaskAsync(request).ConfigureAwait(false);
         }
-#endif
 
         public virtual RestRequest GetListResource(string resource, int page = 1, int pageSize = GiantBombBase.DefaultLimit, string[] fieldList = null, IDictionary<string, SortDirection> sortOptions = null, IDictionary<string, object> filterOptions = null) {
             if (pageSize > GiantBombBase.DefaultLimit)

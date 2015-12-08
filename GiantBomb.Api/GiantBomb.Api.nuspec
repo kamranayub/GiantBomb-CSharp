@@ -18,5 +18,15 @@
   </metadata>
   <files>
     <file src="readme.txt" target="readme.txt" />
+
+    <!-- .NET 4.5.2 will be inserted automatically -->
+
+    <!-- .NET 4.6 -->
+    <file src="..\bin\Release\net46\GiantBomb.Api.dll" target="lib\net46\GiantBomb.Api.dll"/>
+    <file src="..\bin\Release\net46\GiantBomb.Api.pdb" target="lib\net46\GiantBomb.Api.pdb"/>
+
+    <!-- .NET 4.6.1 -->
+    <file src="..\bin\Release\net461\GiantBomb.Api.dll" target="lib\net461\GiantBomb.Api.dll"/>
+    <file src="..\bin\Release\net461\GiantBomb.Api.pdb" target="lib\net461\GiantBomb.Api.pdb"/>
   </files>
 </package>

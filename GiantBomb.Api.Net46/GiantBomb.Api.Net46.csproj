@@ -1,0 +1,127 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{0F3123EB-BEE8-4D22-8B82-FEE48332479B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>GiantBomb.Api</RootNamespace>
+    <AssemblyName>GiantBomb.Api</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\bin\Debug\net46\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\bin\Release\net46\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="RestSharp, Version=105.2.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RestSharp.105.2.3\lib\net46\RestSharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\GiantBomb.Api\Core.cs">
+      <Link>Core.cs</Link>
+    </Compile>
+    <Compile Include="..\GiantBomb.Api\GiantBombApiException.cs">
+      <Link>GiantBombApiException.cs</Link>
+    </Compile>
+    <Compile Include="..\GiantBomb.Api\GiantBombHttpException.cs">
+      <Link>GiantBombHttpException.cs</Link>
+    </Compile>
+    <Compile Include="..\GiantBomb.Api\IGiantBombRestClient.cs">
+      <Link>IGiantBombRestClient.cs</Link>
+    </Compile>
+    <Compile Include="..\GiantBomb.Api\Model\Developer.cs">
+      <Link>Model\Developer.cs</Link>
+    </Compile>
+    <Compile Include="..\GiantBomb.Api\Model\Franchise.cs">
+      <Link>Model\Franchise.cs</Link>
+    </Compile>
+    <Compile Include="..\GiantBomb.Api\Model\Game.cs">
+      <Link>Model\Game.cs</Link>
+    </Compile>
+    <Compile Include="..\GiantBomb.Api\Model\Genre.cs">
+      <Link>Model\Genre.cs</Link>
+    </Compile>
+    <Compile Include="..\GiantBomb.Api\Model\GiantBombBase.cs">
+      <Link>Model\GiantBombBase.cs</Link>
+    </Compile>
+    <Compile Include="..\GiantBomb.Api\Model\Image.cs">
+      <Link>Model\Image.cs</Link>
+    </Compile>
+    <Compile Include="..\GiantBomb.Api\Model\Platform.cs">
+      <Link>Model\Platform.cs</Link>
+    </Compile>
+    <Compile Include="..\GiantBomb.Api\Model\Publisher.cs">
+      <Link>Model\Publisher.cs</Link>
+    </Compile>
+    <Compile Include="..\GiantBomb.Api\Model\Rating.cs">
+      <Link>Model\Rating.cs</Link>
+    </Compile>
+    <Compile Include="..\GiantBomb.Api\Model\Region.cs">
+      <Link>Model\Region.cs</Link>
+    </Compile>
+    <Compile Include="..\GiantBomb.Api\Model\Release.cs">
+      <Link>Model\Release.cs</Link>
+    </Compile>
+    <Compile Include="..\GiantBomb.Api\Resources\Games.cs">
+      <Link>Resources\Games.cs</Link>
+    </Compile>
+    <Compile Include="..\GiantBomb.Api\Resources\Platforms.cs">
+      <Link>Resources\Platforms.cs</Link>
+    </Compile>
+    <Compile Include="..\GiantBomb.Api\Resources\Regions.cs">
+      <Link>Resources\Regions.cs</Link>
+    </Compile>
+    <Compile Include="..\GiantBomb.Api\Resources\Releases.cs">
+      <Link>Resources\Releases.cs</Link>
+    </Compile>
+    <Compile Include="..\GiantBomb.Api\Resources\Search.cs">
+      <Link>Resources\Search.cs</Link>
+    </Compile>
+    <Compile Include="..\GiantBomb.Api\ResourceTypes.cs">
+      <Link>ResourceTypes.cs</Link>
+    </Compile>
+    <Compile Include="..\SharedAssemblyInfo.cs">
+      <Link>SharedAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

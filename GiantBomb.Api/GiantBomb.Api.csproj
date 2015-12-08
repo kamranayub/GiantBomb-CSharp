@@ -20,7 +20,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\bin\Debug\net452\</OutputPath>
     <DefineConstants>TRACE;DEBUG;FRAMEWORK</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -29,7 +29,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>..\bin\Release\net452\</OutputPath>
     <DefineConstants>TRACE;FRAMEWORK</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -49,6 +49,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\SharedAssemblyInfo.cs">
+      <Link>SharedAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="Core.cs" />
     <Compile Include="GiantBombHttpException.cs" />
     <Compile Include="GiantBombApiException.cs" />
@@ -74,12 +77,14 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="GiantBomb.Api.nuspec" />
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <PropertyGroup>
-    <PostBuildEvent>"$(SolutionDir).nuget\nuget.exe" pack "$(ProjectPath)" -OutputDirectory "..\..\.." -Properties Configuration=Release</PostBuildEvent>
+    <PostBuildEvent>"$(SolutionDir).nuget\nuget.exe" pack "$(ProjectPath)" -Symbols -OutputDirectory "..\..\.." -Properties Configuration=Release</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>copy "$(SolutionDir)Readme.md" "$(ProjectDir)readme.txt" /y</PreBuildEvent>
