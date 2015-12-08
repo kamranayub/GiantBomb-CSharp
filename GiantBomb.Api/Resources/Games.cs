@@ -15,7 +15,7 @@ namespace GiantBomb.Api {
         }
 
         public async Task<Game> GetGameAsync(int id, string[] limitFields = null) {
-            return await GetSingleResourceAsync<Game>("game", ResourceTypes.Games, id, limitFields);
+            return await GetSingleResourceAsync<Game>("game", ResourceTypes.Games, id, limitFields).ConfigureAwait(false);
         }
 
         public IEnumerable<Game> GetGames(int page = 1, int pageSize = GiantBombBase.DefaultLimit, string[] limitFields = null)
@@ -24,7 +24,7 @@ namespace GiantBomb.Api {
         }
 
         public async Task<IEnumerable<Game>> GetGamesAsync(int page = 1, int pageSize = GiantBombBase.DefaultLimit, string[] limitFields = null) {
-            return await GetListResourceAsync<Game>("games", page, pageSize, limitFields);
+            return await GetListResourceAsync<Game>("games", page, pageSize, limitFields).ConfigureAwait(false);
         }
     }
 }

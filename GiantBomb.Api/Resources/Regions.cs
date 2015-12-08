@@ -16,7 +16,7 @@ namespace GiantBomb.Api
 
         public async Task<Region> GetRegionAsync(int id, string[] limitFields = null)
         {
-            return await GetSingleResourceAsync<Region>("region", ResourceTypes.Regions, id, limitFields);
+            return await GetSingleResourceAsync<Region>("region", ResourceTypes.Regions, id, limitFields).ConfigureAwait(false);
         }
 
         public IEnumerable<Region> GetRegions(int page = 1, int pageSize = GiantBombBase.DefaultLimit, string[] limitFields = null)
@@ -26,7 +26,7 @@ namespace GiantBomb.Api
 
         public async Task<IEnumerable<Region>> GetRegionsAsync(int page = 1, int pageSize = GiantBombBase.DefaultLimit, string[] limitFields = null)
         {
-            return await GetListResourceAsync<Region>("regions", page, pageSize, limitFields);
+            return await GetListResourceAsync<Region>("regions", page, pageSize, limitFields).ConfigureAwait(false);
         }
     }
 }

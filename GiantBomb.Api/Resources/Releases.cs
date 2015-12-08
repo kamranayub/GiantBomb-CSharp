@@ -14,7 +14,7 @@ namespace GiantBomb.Api {
         }
 
         public async Task<Release> GetReleaseAsync(int id, string[] limitFields = null) {
-            return await GetSingleResourceAsync<Release>("release", ResourceTypes.Releases, id, limitFields);
+            return await GetSingleResourceAsync<Release>("release", ResourceTypes.Releases, id, limitFields).ConfigureAwait(false);
         }
 
         public IEnumerable<Release> GetReleasesForGame(int gameId, string[] limitFields = null)
@@ -29,7 +29,7 @@ namespace GiantBomb.Api {
                                  {"game", gameId}
                              };
 
-            return await GetListResourceAsync<Release>("releases", fieldList: limitFields, filterOptions: filter);
+            return await GetListResourceAsync<Release>("releases", fieldList: limitFields, filterOptions: filter).ConfigureAwait(false);
         }
 
         public IEnumerable<Release> GetReleasesForGame(Game game, string[] limitFields = null)

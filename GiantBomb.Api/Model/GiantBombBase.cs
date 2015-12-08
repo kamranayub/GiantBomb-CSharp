@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 
 namespace GiantBomb.Api.Model {
-    public abstract class GiantBombBase {
+    public class GiantBombBase {
         public string Error { get; set; }
         public int Limit { get; set; }
         public int NumberOfPageResults { get; set; }

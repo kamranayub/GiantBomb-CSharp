@@ -15,7 +15,7 @@ namespace GiantBomb.Api {
         }
 
         public async Task<IEnumerable<Game>> SearchForGamesAsync(string query, int page = 1, int pageSize = GiantBombBase.DefaultLimit, string[] limitFields = null) {
-            var result = await InternalSearchForGames(query, page, pageSize, limitFields);
+            var result = await InternalSearchForGames(query, page, pageSize, limitFields).ConfigureAwait(false);
 
             if (result.StatusCode == GiantBombBase.StatusOk)
                 return result.Results;
@@ -30,7 +30,7 @@ namespace GiantBomb.Api {
 
         public async Task<IEnumerable<Game>> SearchForAllGamesAsync(string query, string[] limitFields = null) {
             var results = new List<Game>();
-            var result = await InternalSearchForGames(query, limitFields: limitFields);
+            var result = await InternalSearchForGames(query, limitFields: limitFields).ConfigureAwait(false);
 
             if (result == null || result.StatusCode != GiantBombBase.StatusOk)
                 return null;
@@ -42,7 +42,7 @@ namespace GiantBomb.Api {
 
                 // Start on page 2
                 for (var i = 2; i <= remaining; i++) {
-                    result = await InternalSearchForGames(query, i, result.Limit, limitFields);
+                    result = await InternalSearchForGames(query, i, result.Limit, limitFields).ConfigureAwait(false);
 
                     if (result.StatusCode != GiantBombBase.StatusOk)
                         break;
@@ -68,7 +68,7 @@ namespace GiantBomb.Api {
             request.AddParameter("query", query);
             request.AddParameter("resources", "game");
 
-            return await ExecuteAsync<GiantBombResults<Game>>(request);
+            return await ExecuteAsync<GiantBombResults<Game>>(request).ConfigureAwait(false);
         }
     }
 }

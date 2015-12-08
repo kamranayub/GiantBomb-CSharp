@@ -18,6 +18,5 @@
   </metadata>
   <files>
     <file src="readme.txt" target="readme.txt" />
-    <file src="..\Dependencies\fastJSON.dll" target="lib\net40" />
   </files>
 </package>

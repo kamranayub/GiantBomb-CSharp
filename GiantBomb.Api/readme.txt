@@ -1,6 +1,13 @@
 GiantBomb C#
 ------------
 
+## 2.3.0
+
+- **BUG:** Fixed deserialization exception for single resource errors (e.g. Object Not Found)
+- **BUG:** Fixed synchronous API to not deadlock
+- Removed fastJSON DLL since it wasn't *actually* being used
+- Upgrade to RestSharp 105.2.3
+
 ## 2.2.1
 
 - Better error handling for API exceptions

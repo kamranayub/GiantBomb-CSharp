@@ -14,7 +14,7 @@ namespace GiantBomb.Api {
         }
 
         public async Task<Platform> GetPlatformAsync(int id, string[] limitFields = null) {
-            return await GetSingleResourceAsync<Platform>("platform", ResourceTypes.Platforms, id, limitFields);
+            return await GetSingleResourceAsync<Platform>("platform", ResourceTypes.Platforms, id, limitFields).ConfigureAwait(false);
         }
 
         public IEnumerable<Platform> GetPlatforms(int page = 1, int pageSize = GiantBombBase.DefaultLimit,
@@ -24,7 +24,7 @@ namespace GiantBomb.Api {
         }
 
         public async Task<IEnumerable<Platform>> GetPlatformsAsync(int page = 1, int pageSize = GiantBombBase.DefaultLimit, string[] limitFields = null) {
-            return await GetListResourceAsync<Platform>("platforms", page, pageSize, limitFields);
+            return await GetListResourceAsync<Platform>("platforms", page, pageSize, limitFields).ConfigureAwait(false);
         }
     }
 }

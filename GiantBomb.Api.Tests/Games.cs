@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using GiantBomb.Api.Model;
 using NUnit.Framework;
 
 namespace GiantBomb.Api.Tests {
@@ -49,6 +50,24 @@ namespace GiantBomb.Api.Tests {
             Assert.IsNotNull(game);
             Assert.AreEqual(gameId, game.Id);
             Assert.IsNullOrEmpty(game.Name);            
+        }
+
+        /// <summary>
+        /// BUG: Handle single resource errors
+        /// </summary>
+        [Test]
+        public async void game_resource_should_return_not_found_for_nonexistent_game()
+        {
+            int gameId = 50871;
+
+            try
+            {
+                var game = await _client.GetGameAsync(gameId);
+            }
+            catch (GiantBombApiException ex)
+            {
+                Assert.AreEqual(GiantBombBase.StatusObjectNotFound, ex.StatusCode);
+            }
         }
     }
 }
