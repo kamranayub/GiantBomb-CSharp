@@ -7,6 +7,7 @@ GiantBomb C#
 - **BUG:** Fixed synchronous API to not deadlock
 - Removed fastJSON DLL since it wasn't *actually* being used
 - Upgrade to RestSharp 105.2.3
+- Added .NET 4.6 and 4.6.1 support
 
 ## 2.2.1
 
