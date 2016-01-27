@@ -1,6 +1,8 @@
 GiantBomb C#
 ------------
 
+[![Build status](https://ci.appveyor.com/api/projects/status/hh268dmpd08qfjqt?svg=true)](https://ci.appveyor.com/project/kamranayub/giantbomb-csharp)
+
 ## 2.3.0
 
 - **BUG:** Fixed deserialization exception for single resource errors (e.g. Object Not Found)
