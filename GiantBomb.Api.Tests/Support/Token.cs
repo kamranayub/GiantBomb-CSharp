@@ -8,7 +8,8 @@ namespace GiantBomb.Api.Tests.Support
 {
     public static class Token
     {
-        const string FilePath = @".\Support\api_token.private";
+        // relative to bin/Configuration
+        const string FilePath = @"..\..\Support\api_token.private";
 
         /// <summary>
         /// Gets the API token for tests. Located in api_token.private folder in same folder or GIANTBOMB_API_TOKEN environment variable (CI).
@@ -16,7 +17,9 @@ namespace GiantBomb.Api.Tests.Support
         /// <returns></returns>
         public static string GetToken()
         {
-            if (File.Exists(FilePath))
+            string basePath = AppDomain.CurrentDomain.BaseDirectory;
+
+            if (File.Exists(Path.Combine(basePath, FilePath)))
             {
                 return File.ReadAllText(FilePath);
             }

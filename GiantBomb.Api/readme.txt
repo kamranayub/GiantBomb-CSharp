@@ -1,12 +1,15 @@
 GiantBomb C#
 ------------
 
+[![Build status](https://ci.appveyor.com/api/projects/status/hh268dmpd08qfjqt?svg=true)](https://ci.appveyor.com/project/kamranayub/giantbomb-csharp)
+
 ## 2.3.0
 
 - **BUG:** Fixed deserialization exception for single resource errors (e.g. Object Not Found)
 - **BUG:** Fixed synchronous API to not deadlock
 - Removed fastJSON DLL since it wasn't *actually* being used
 - Upgrade to RestSharp 105.2.3
+- Added .NET 4.6 and 4.6.1 support
 
 ## 2.2.1
 
