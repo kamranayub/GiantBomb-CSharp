@@ -26,13 +26,22 @@ namespace GiantBomb.Api.Model {
         public Image Image { get; set; }
         public List<Image> Images { get; set; }
         public int NumberOfUserReviews { get; set; }
-        public string OriginalGameRating { get; set; }
+        public List<GameRating> OriginalGameRating { get; set; }
         public DateTime? OriginalReleaseDate { get; set; }
         public List<Platform> Platforms { get; set; }
         public List<Publisher> Publishers { get; set; }
         public List<Release> Releases { get; set; }
         public string SiteDetailUrl { get; set; }
         public List<Game> SimilarGames { get; set; }
+    }
+
+    public class GameRating
+    {
+        public string ApiDetailUrl { get; set; }
+
+        public int Id { get; set; }
+
+        public string Name { get; set; }
     }
 
     public class GameDistinctComparer : IEqualityComparer<Game>

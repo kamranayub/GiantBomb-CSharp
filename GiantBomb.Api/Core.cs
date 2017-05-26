@@ -7,11 +7,15 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using GiantBomb.Api.Model;
-using RestSharp;
-using RestSharp.Deserializers;
+using Newtonsoft.Json;
+using RestSharp.Portable;
+using RestSharp.Portable.Deserializers;
+using RestSharp.Portable.HttpClient;
 
-namespace GiantBomb.Api {
-    public partial class GiantBombRestClient : IGiantBombRestClient {
+namespace GiantBomb.Api
+{
+    public partial class GiantBombRestClient : IGiantBombRestClient
+    {
         private readonly RestClient _client;
 
         /// <summary>
@@ -29,29 +33,33 @@ namespace GiantBomb.Api {
         /// </summary>
         /// <param name="apiToken">Your secret API token</param>
         /// <param name="baseUrl">The base API URL, for example, pre-release API versions</param>
-        public GiantBombRestClient(string apiToken, Uri baseUrl) {
+        public GiantBombRestClient(string apiToken, Uri baseUrl)
+        {
             BaseUrl = baseUrl.ToString();
             ApiKey = apiToken;
 
-            var assembly = Assembly.GetExecutingAssembly();
-            var version = System.Diagnostics.FileVersionInfo.GetVersionInfo(assembly.Location).ProductVersion;
+            var version = typeof(GiantBombRestClient).GetTypeInfo().Assembly.GetName().Version;
 
             _client = new RestClient
-                          {
-                              UserAgent = "giantbomb-csharp/" + version,
-                              BaseUrl = baseUrl
-                          };
+            {
+                UserAgent = "giantbomb-csharp/" + version,
+                BaseUrl = baseUrl
+            };
 
             // API token is used on every request
             _client.AddDefaultParameter("api_key", ApiKey);
             _client.AddDefaultParameter("format", "json");
+
+            // Replace JSON deserializer
+            _client.ContentHandlers["application/json"] = new GiantBombDeserializer();
         }
 
         public GiantBombRestClient(string apiToken)
-            : this(apiToken, new Uri("http://www.giantbomb.com/api/")) {
+            : this(apiToken, new Uri("https://www.giantbomb.com/api/"))
+        {
 
         }
-        
+
         /// <summary>
         /// Execute a manual REST request
         /// </summary>
@@ -69,18 +77,40 @@ namespace GiantBomb.Api {
         /// <param name="request">The RestRequest to execute (will use client credentials)</param>
         public virtual async Task<T> ExecuteAsync<T>(RestRequest request) where T : new()
         {
-            var response = await _client.ExecuteTaskAsync<T>(request).ConfigureAwait(false);
+            IRestResponse response = null;
 
-            if (response.Data == null)
+            try
+            {
+                response = await _client.Execute(request).ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                throw new GiantBombHttpException(
+                    "Unable to retrieve response from GiantBomb.", ex, response?.Content);
+            }
+
+            // Deserialize original requested type
+            T data = default(T);
+            Exception deserializeEx = null;
+            try
+            {
+                data = _client.ContentHandlers["application/json"].Deserialize<T>(response);
+            }
+            catch (Exception dex)
+            {
+                deserializeEx = dex;
+            }
+
+            if (data == null)
             {
                 // handle GiantBomb raw errors without result wrapper
                 try
-                {                    
-                    var responseData = new JsonDeserializer().Deserialize<GiantBombBase>(response);
+                {
+                    var responseData = _client.ContentHandlers["application/json"].Deserialize<GiantBombBase>(response);
 
-                    if (responseData != null && !String.IsNullOrWhiteSpace(responseData.Error))
+                    if (responseData != null && !String.IsNullOrWhiteSpace(responseData.Error) && responseData.Error != GiantBombBase.ErrorOK)
                     {
-                        throw new GiantBombApiException(responseData.StatusCode, responseData.Error);
+                        throw new GiantBombApiException(responseData.StatusCode, responseData.Error + Environment.NewLine + response.Content);
                     }
                 }
                 catch (Exception ex)
@@ -89,23 +119,21 @@ namespace GiantBomb.Api {
                     {
                         throw;
                     }
+                    else
+                    {
+                        throw new GiantBombHttpException("Could not deserialize response", ex);
+                    }
                 }
 
-                if (response.ErrorException != null)
-                {
-                    throw new GiantBombHttpException(response.ErrorMessage, response.ErrorException, response.Content);
-                }
-                else
-                {
-                    throw new GiantBombHttpException("Bad content", response.Content);
-                }                
+                throw new GiantBombHttpException("Bad content", deserializeEx, response.Content);
             }
-            else if (response.StatusCode != HttpStatusCode.OK)
+
+            if (response.StatusCode != HttpStatusCode.OK)
             {
-                throw new GiantBombHttpException(response.ErrorMessage, response.Content);
+                throw new GiantBombHttpException($"GiantBomb returned status code {response.StatusCode}: {response.StatusDescription}", response.Content);
             }
 
-            return response.Data;
+            return data;
         }
 
         /// <summary>
@@ -123,26 +151,30 @@ namespace GiantBomb.Api {
         /// <param name="request">The RestRequest to execute (will use client credentials)</param>
         public virtual async Task<IRestResponse> ExecuteAsync(RestRequest request)
         {
-            return await _client.ExecuteTaskAsync(request).ConfigureAwait(false);
+            return await _client.Execute(request).ConfigureAwait(false);
         }
 
-        public virtual RestRequest GetListResource(string resource, int page = 1, int pageSize = GiantBombBase.DefaultLimit, string[] fieldList = null, IDictionary<string, SortDirection> sortOptions = null, IDictionary<string, object> filterOptions = null) {
+        public virtual RestRequest GetListResource(string resource, int page = 1, int pageSize = GiantBombBase.DefaultLimit, string[] fieldList = null, IDictionary<string, SortDirection> sortOptions = null, IDictionary<string, object> filterOptions = null)
+        {
             if (pageSize > GiantBombBase.DefaultLimit)
                 throw new ArgumentOutOfRangeException("pageSize", "Page size cannot be greater than " + GiantBombBase.DefaultLimit + ".");
 
-            var request = new RestRequest {
-                Resource = resource + "/",
-                DateFormat = "yyyy-MM-dd HH:mm:ss"
+            var request = new RestRequest
+            {
+                Resource = resource + "/"
             };
 
-            if (page > 1) {
+            if (page > 1)
+            {
 
                 // HACK: Giant Bomb uses `page` for search instead of `offset`
-                if (resource == "search") {
+                if (resource == "search")
+                {
                     request.AddParameter("page", page);
                 }
-                else {
-                    request.AddParameter("offset", pageSize*(page - 1));
+                else
+                {
+                    request.AddParameter("offset", pageSize * (page - 1));
                 }
             }
 
@@ -164,7 +196,7 @@ namespace GiantBomb.Api {
         {
             // format is like <key>:<value>,<key>:<value>
             return String.Join(",", (from pair in dictionary
-                   select pair.Key + ":" + pair.Value).ToArray());
+                                     select pair.Key + ":" + pair.Value).ToArray());
         }
 
         private string BuildKeyValueListForUrl(IEnumerable<KeyValuePair<string, SortDirection>> sortOptions)
@@ -172,16 +204,17 @@ namespace GiantBomb.Api {
 
             var sortDictionary = new Dictionary<string, object>();
 
-            foreach(var kv in sortOptions)
+            foreach (var kv in sortOptions)
                 sortDictionary.Add(kv.Key, kv.Value == SortDirection.Ascending ? "asc" : "desc");
 
             return BuildKeyValueListForUrl(sortDictionary);
         }
 
-        public virtual RestRequest GetSingleResource(string resource, int resourceId, int id, string[] fieldList = null) {
-            var request = new RestRequest {
-                Resource = resource + "/{ResourceId}-{Id}/",
-                DateFormat = "yyyy-MM-dd HH:mm:ss"
+        public virtual RestRequest GetSingleResource(string resource, int resourceId, int id, string[] fieldList = null)
+        {
+            var request = new RestRequest
+            {
+                Resource = resource + "/{ResourceId}-{Id}/"
             };
 
             request.AddUrlSegment("ResourceId", resourceId.ToString(CultureInfo.InvariantCulture));
@@ -221,7 +254,8 @@ namespace GiantBomb.Api {
             return GetSingleResourceAsync<TResult>(resource, resourceId, id, fieldList).Result;
         }
 
-        public virtual async Task<TResult> GetSingleResourceAsync<TResult>(string resource, int resourceId, int id, string[] fieldList = null) where TResult : class, new() {
+        public virtual async Task<TResult> GetSingleResourceAsync<TResult>(string resource, int resourceId, int id, string[] fieldList = null) where TResult : class, new()
+        {
             var request = GetSingleResource(resource, resourceId, id, fieldList);
             var result = await ExecuteAsync<GiantBombResult<TResult>>(request).ConfigureAwait(false);
 

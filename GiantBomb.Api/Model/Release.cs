@@ -24,7 +24,8 @@ namespace GiantBomb.Api.Model {
         public Image Image { get; set; }
         public Platform Platform { get; set; }
         public string ProductCodeValue { get; set; }
-        public string ProductCodeType { get; set; }
+        // TODO: Enable once value is fixed in API
+        //public string ProductCodeType { get; set; }
         public string SiteDetailUrl { get; set; }
         public Region Region { get; set; }
 

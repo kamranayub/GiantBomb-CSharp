@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using GiantBomb.Api.Model;
 using RestSharp;
+using RestSharp.Portable;
 
 namespace GiantBomb.Api {
     public partial class GiantBombRestClient {

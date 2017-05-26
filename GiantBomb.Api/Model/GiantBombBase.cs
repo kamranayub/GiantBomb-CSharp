@@ -12,6 +12,7 @@ namespace GiantBomb.Api.Model {
         public int StatusCode { get; set; }
         public string Version { get; set; }
 
+        public const string ErrorOK = "OK";
         public const int StatusOk = 1;
         public const int StatusApiKeyInvalid = 100;
         public const int StatusObjectNotFound = 101;
