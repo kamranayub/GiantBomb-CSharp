@@ -78,7 +78,7 @@
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GiantBomb.Api.NetStandard\GiantBomb.Api.csproj">
+    <ProjectReference Include="..\GiantBomb.Api\GiantBomb.Api.csproj">
       <Project>{9980b512-d08b-4505-971c-6dfb5cb44e36}</Project>
       <Name>GiantBomb.Api</Name>
     </ProjectReference>

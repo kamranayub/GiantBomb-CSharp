@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard1.2</TargetFramework>
-    <AssemblyName>GiantBomb.Api.NetStandard</AssemblyName>
+    <AssemblyName>GiantBomb.Api</AssemblyName>
     <RootNamespace>GiantBomb.Api</RootNamespace>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Version>2.4.0</Version>
