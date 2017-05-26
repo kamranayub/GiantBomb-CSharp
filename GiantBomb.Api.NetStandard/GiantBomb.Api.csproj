@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard1.2</TargetFramework>
+    <AssemblyName>GiantBomb.Api.NetStandard</AssemblyName>
+    <RootNamespace>GiantBomb.Api</RootNamespace>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Version>2.4.0</Version>
+    <Authors>kayub</Authors>
+    <Company>kayub</Company>
+    <Product>GiantBomb API (C#)</Product>
+    <Description>Restful API wrapper for the GiantBomb games database public API</Description>
+    <Copyright>Copyright © kayub 2015</Copyright>
+    <PackageLicenseUrl>https://github.com/kamranayub/GiantBomb-CSharp/blob/master/LICENSE.txt</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/kamranayub/GiantBomb-CSharp</PackageProjectUrl>
+    <PackageId>GiantBomb.Api</PackageId>
+    <RepositoryUrl>https://github.com/kamranayub/GiantBomb-CSharp</RepositoryUrl>
+    <RepositoryType>Git</RepositoryType>
+    <PackageTags>giantbomb games database sdk gaming</PackageTags>
+    <PackageReleaseNotes>For changes, see README.</PackageReleaseNotes>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FubarCoder.RestSharp.Portable.HttpClient" Version="4.0.8" />
+  </ItemGroup>
+
+</Project>

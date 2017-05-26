@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using GiantBomb.Api.Tests.Support;
 using NUnit.Framework;
-using RestSharp;
+using RestSharp.Portable;
 
 namespace GiantBomb.Api.Tests
 {
