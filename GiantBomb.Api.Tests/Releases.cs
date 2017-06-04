@@ -1,39 +1,39 @@
-﻿using System;
+﻿using FluentAssertions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using NUnit.Framework;
+using Xunit;
 
 namespace GiantBomb.Api.Tests {
-
-    [TestFixture]
+    
     public class Releases : TestBase {
 
-        [Test]
+        [Fact]
         public void release_resource_should_return_release_for_29726() {
             int releaseId = 29726;
 
             var release = _client.GetRelease(releaseId);
 
-            Assert.IsNotNull(release);
-            Assert.AreEqual(release.Id, releaseId);
-            Assert.IsTrue(release.Name.Contains("Morrowind"));
-            Assert.IsTrue(release.DateAdded > DateTime.MinValue);
-            Assert.IsTrue(release.DateLastUpdated > DateTime.MinValue);
-            Assert.IsNotNull(release.Platform, "No platform");
-            Assert.IsNotNull(release.Publishers, "No publishers");
-            Assert.IsNotNull(release.Developers, "No developers");
+            release.Should().NotBeNull();
+            release.Id.Should().Be(releaseId);
+            release.Name.Should().Contain("Morrowind");
+            release.DateAdded.Should().BeAfter(DateTime.MinValue);
+            release.DateLastUpdated.Should().BeAfter(DateTime.MinValue);
+            release.Platform.Should().NotBeNull();
+            release.Publishers.Should().NotBeNull();
+            release.Developers.Should().NotBeNull();
         }
 
-        [Test]
+        [Fact]
         public void GetReleases_should_return_releases_for_17367() {
             int gameId = 17367;
 
             var releases = _client.GetReleasesForGame(gameId, new [] { "id"});
 
-            Assert.IsNotNull(releases);
-            Assert.Greater(releases.Count(), 0);
-            Assert.IsTrue(releases.Any(r => r.Id == 29726));
+            releases.Should().NotBeNull();
+            releases.Count().Should().BeGreaterThan(0);
+            releases.Select(r => r.Id).Should().Contain(29726);            
         }
     }
 }

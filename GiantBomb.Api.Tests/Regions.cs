@@ -1,50 +1,50 @@
-﻿using System;
+﻿using FluentAssertions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using NUnit.Framework;
+using Xunit;
 
 namespace GiantBomb.Api.Tests
 {
-    [TestFixture]
     public class Regions : TestBase
     {
 
-        [Test]
+        [Fact]
         public void region_resource_should_return_region_for_id_1()
         {
             int regionId = 1;
 
             var region = _client.GetRegion(regionId);
 
-            Assert.IsNotNull(region);
-            Assert.AreEqual(regionId, region.Id);
-            Assert.AreEqual("United States", region.Name);            
-            Assert.IsNotNull(region.ApiDetailUrl);
-            Assert.IsNotNull(region.DateAdded);
-            Assert.IsNotNull(region.DateLastUpdated);
+            region.Should().NotBeNull();
+            region.Id.Should().Be(regionId);
+            region.Name.Should().Be("United States");            
+            region.ApiDetailUrl.Should().NotBeNull();
+            region.DateAdded.Should().BeAfter(DateTime.MinValue);
+            region.DateLastUpdated.Should().BeAfter(DateTime.MinValue);
         }
 
-        [Test]
+        [Fact]
         public void regions_resource_should_return_list_of_regions()
         {
 
             var regions = _client.GetRegions(pageSize: 2);
 
-            Assert.IsNotNull(regions);
-            Assert.IsTrue(regions.Count() > 1);
+            regions.Should().NotBeNull();
+            regions.Count().Should().BeGreaterThan(1);
         }
 
-        [Test]
+        [Fact]
         public void region_resource_should_limit_fields_to_id_for_1()
         {
             int regionId = 1;
 
             var region = _client.GetRegion(regionId, new[] { "id" });
 
-            Assert.IsNotNull(region);
-            Assert.AreEqual(regionId, region.Id);
-            Assert.IsNullOrEmpty(region.Name);
+            region.Should().NotBeNull();
+            region.Id.Should().Be(regionId);
+            region.Name.Should().BeNull();
         }
     }
 }
