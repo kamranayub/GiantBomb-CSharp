@@ -1,7 +1,8 @@
 GiantBomb C#
 ------------
 
-[![Build status](https://ci.appveyor.com/api/projects/status/hh268dmpd08qfjqt?svg=true)](https://ci.appveyor.com/project/kamranayub/giantbomb-csharp)
+[![Build status](https://ci.appveyor.com/api/projects/status/hh268dmpd08qfjqt?svg=true)](https://ci.appveyor.com/project/kamranayub/giantbomb-csharp)  
+[![Build Status](https://travis-ci.org/kamranayub/GiantBomb-CSharp.svg?branch=master)](https://travis-ci.org/kamranayub/GiantBomb-CSharp)
 
 This library aims to wrap the GiantBomb REST API in C# with strongly-typed models and is built on top of [RestSharp](https://github.com/johnsheehan/RestSharp).
 
