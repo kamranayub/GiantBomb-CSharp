@@ -6,6 +6,7 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4851769F-6AF7-484A-88BE-52F7478878B9}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
+		.travis.yml = .travis.yml
 		CHANGELOG.md = CHANGELOG.md
 		LICENSE.txt = LICENSE.txt
 		Readme.md = Readme.md
@@ -19,7 +20,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{9DBE19
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GiantBomb.Api", "GiantBomb.Api\GiantBomb.Api.csproj", "{9980B512-D08B-4505-971C-6DFB5CB44E36}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GiantBomb.Api.xTests", "GiantBomb.Api.Tests\GiantBomb.Api.Tests.csproj", "{DE3434C3-77F5-4F12-88DF-E10B67C4BDF5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GiantBomb.Api.Tests", "GiantBomb.Api.Tests\GiantBomb.Api.Tests.csproj", "{DE3434C3-77F5-4F12-88DF-E10B67C4BDF5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

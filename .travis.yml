@@ -1,0 +1,9 @@
+sudo: false
+language: csharp
+mono: none
+dotnet: 1.0.4
+dist: trusty
+install:
+- dotnet restore
+script:
+- dotnet test GiantBomb.Api.Tests/GiantBomb.Api.Tests.csproj
