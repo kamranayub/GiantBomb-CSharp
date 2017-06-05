@@ -1,7 +1,3 @@
-Copyright 2011, Kamran Ayub
-Dual licensed under the MIT or GPL Version 2 licenses (just like jQuery)
-http://github.com/kamranayub/GiantBomb-CSharp
-
 The MIT License
 
 Copyright (c) 2011 Kamran Ayub
