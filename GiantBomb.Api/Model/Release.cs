@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace GiantBomb.Api.Model
-{
-    public class Release
-    {
+namespace GiantBomb.Api.Model {
+    public class Release {
         public int Id { get; set; }
         public string ApiDetailUrl { get; set; }
         public string Name { get; set; }
@@ -22,7 +20,7 @@ namespace GiantBomb.Api.Model
         public int? ExpectedReleaseYear { get; set; }
         public Game Game { get; set; }
         public DateTime? ReleaseDate { get; set; }
-        public Rating GameRating { get; set; }
+        public Rating Rating { get; set; }
         public Image Image { get; set; }
         public Platform Platform { get; set; }
         public string ProductCodeValue { get; set; }
@@ -30,8 +28,6 @@ namespace GiantBomb.Api.Model
         //public string ProductCodeType { get; set; }
         public string SiteDetailUrl { get; set; }
         public Region Region { get; set; }
-        public int? MaximumPlayers { get; set; }
-        public int? MinimumPlayers { get; set; }
-        public bool? WidescreenSupport { get; set; }
+
     }
 }
