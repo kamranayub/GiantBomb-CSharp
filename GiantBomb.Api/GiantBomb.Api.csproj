@@ -18,6 +18,7 @@
     <RepositoryType>Git</RepositoryType>
     <PackageTags>giantbomb games database sdk gaming</PackageTags>
     <PackageReleaseNotes>For changes, see README.</PackageReleaseNotes>
+    <DebugType>portable</DebugType>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
