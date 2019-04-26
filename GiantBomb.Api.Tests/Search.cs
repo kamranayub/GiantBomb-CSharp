@@ -1,19 +1,17 @@
 ﻿using FluentAssertions;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Xunit;
 
 namespace GiantBomb.Api.Tests {
     public class Search : TestBase {
+
         [Fact]
-        public void search_resource_should_return_one_result_for_skyrim() {
-            var result = _client.SearchForGames("skyrim").ToList();
+        public void search_resource_should_return_one_result_for_resogun() {
+            var result = _client.SearchForGames("resogun").ToList();
 
             result.Should().NotBeNull();
             result.Count.Should().Be(1);
-            result.First().Id.Should().Be(33394);
+            result.First().Id.Should().Be(43628);
             result.First().Platforms.Should().NotBeNull();
             result.First().Platforms.First().Should().NotBeNull();
             result.First().Platforms.First().Id.Should().BeGreaterThan(0);
@@ -45,7 +43,7 @@ namespace GiantBomb.Api.Tests {
 
         [Fact]
         public void search_resource_should_limit_fields_to_id_for_one_result() {
-            var result = _client.SearchForGames("skyrim", limitFields: new [] { "id" }).ToList();
+            var result = _client.SearchForGames("resogun", limitFields: new [] { "id" }).ToList();
 
             result.Should().NotBeNull();
             result.Count.Should().Be(1);

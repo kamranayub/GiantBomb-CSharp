@@ -8,9 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using GiantBomb.Api.Model;
 using Newtonsoft.Json;
-using RestSharp.Portable;
-using RestSharp.Portable.Deserializers;
-using RestSharp.Portable.HttpClient;
+using RestSharp;
 
 namespace GiantBomb.Api
 {
@@ -26,7 +24,8 @@ namespace GiantBomb.Api
         /// <summary>
         /// Your GiantBomb API token
         /// </summary>
-        private string ApiKey { get; set; }
+        private string ApiKey { get; }
+
 
         /// <summary>
         /// Create a new Rest client with your API token and custom base URL
@@ -45,13 +44,11 @@ namespace GiantBomb.Api
                 UserAgent = "giantbomb-csharp/" + version,
                 BaseUrl = baseUrl
             };
-
+            
             // API token is used on every request
             _client.AddDefaultParameter("api_key", ApiKey);
             _client.AddDefaultParameter("format", "json");
-
-            // Replace JSON deserializer
-            _client.ContentHandlers["application/json"] = new GiantBombDeserializer();
+            _client.UseSerializer(() => new GiantBombDeserializer());           
         }
 
         public GiantBombRestClient(string apiToken)
@@ -81,7 +78,7 @@ namespace GiantBomb.Api
 
             try
             {
-                response = await _client.Execute(request).ConfigureAwait(false);
+                response = await _client.ExecuteAsync(request).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -94,7 +91,7 @@ namespace GiantBomb.Api
             Exception deserializeEx = null;
             try
             {
-                data = _client.ContentHandlers["application/json"].Deserialize<T>(response);
+                data = _client.Deserialize<T>(response).Data;
             }
             catch (Exception dex)
             {
@@ -106,7 +103,7 @@ namespace GiantBomb.Api
                 // handle GiantBomb raw errors without result wrapper
                 try
                 {
-                    var responseData = _client.ContentHandlers["application/json"].Deserialize<GiantBombBase>(response);
+                    var responseData = _client.Deserialize<GiantBombBase>(response).Data;
 
                     if (responseData != null && !String.IsNullOrWhiteSpace(responseData.Error) && responseData.Error != GiantBombBase.ErrorOK)
                     {
@@ -151,7 +148,7 @@ namespace GiantBomb.Api
         /// <param name="request">The RestRequest to execute (will use client credentials)</param>
         public virtual async Task<IRestResponse> ExecuteAsync(RestRequest request)
         {
-            return await _client.Execute(request).ConfigureAwait(false);
+            return await _client.ExecuteAsync(request).ConfigureAwait(false);
         }
 
         public virtual RestRequest GetListResource(string resource, int page = 1, int pageSize = GiantBombBase.DefaultLimit, string[] fieldList = null, IDictionary<string, SortDirection> sortOptions = null, IDictionary<string, object> filterOptions = null)
