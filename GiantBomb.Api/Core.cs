@@ -4,11 +4,12 @@ using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
 using GiantBomb.Api.Model;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using RestSharp;
+using RestSharp.Serializers.NewtonsoftJson;
 
 namespace GiantBomb.Api
 {
@@ -48,7 +49,14 @@ namespace GiantBomb.Api
             // API token is used on every request
             _client.AddDefaultParameter("api_key", ApiKey);
             _client.AddDefaultParameter("format", "json");
-            _client.UseSerializer(() => new GiantBombDeserializer());           
+            _client.UseNewtonsoftJson(new JsonSerializerSettings
+            {
+                DateFormatString = "yyyy-MM-dd HH:mm:ss",
+                ContractResolver = new DefaultContractResolver()
+                {
+                    NamingStrategy = new SnakeCaseNamingStrategy()
+                }
+            });        
         }
 
         public GiantBombRestClient(string apiToken)
