@@ -1,5 +1,14 @@
 # Changelog
 
+## 2.5.0
+
+- Update to .NET 5.0
+- Update `RestSharp.Portable` to `RestSharp`
+- Fixes to tests
+- Fixes to CI pipeline
+
+Thanks to [@chyyran](https://github.com/chyyran) for their work on this release.
+
 ## 2.4.0
 
 - Switch to [.NET Standard 1.2](https://docs.microsoft.com/en-us/dotnet/standard/library). Adds support for:
