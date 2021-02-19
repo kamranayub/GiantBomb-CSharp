@@ -49,7 +49,7 @@ This project targets [.NET Standard 1.2](https://docs.microsoft.com/en-us/dotnet
 - Windows Phone 8.1
 
 ## Contributing
-Read about [contributing on the wiki](https://github.com/kamranayub/GiantBomb-CSharp/wiki). If you plan to contribute, you **must** read this.
+Read about [contributing](CONTRIBUTING.md). Please read this if you plan to contribute.
 
 ## Examples
 Read about [examples on the wiki](https://github.com/kamranayub/GiantBomb-CSharp/wiki).
