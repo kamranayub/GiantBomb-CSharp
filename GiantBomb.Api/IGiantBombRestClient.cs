@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using GiantBomb.Api.Model;
-using RestSharp.Portable;
+using RestSharp;
 
 namespace GiantBomb.Api
 {

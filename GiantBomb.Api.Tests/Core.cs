@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using RestSharp.Portable;
 using Xunit;
 using FluentAssertions;
 using GiantBomb.Api.Tests.Support;
+using RestSharp;
 
 namespace GiantBomb.Api.Tests
 {

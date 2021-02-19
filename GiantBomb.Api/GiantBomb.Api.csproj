@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard1.2</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>GiantBomb.Api</AssemblyName>
     <RootNamespace>GiantBomb.Api</RootNamespace>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
@@ -11,7 +11,7 @@
     <Product>GiantBomb API (C#)</Product>
     <Description>Restful API wrapper for the GiantBomb games database public API</Description>
     <Copyright>Copyright © kayub 2015</Copyright>
-    <PackageLicenseUrl>https://github.com/kamranayub/GiantBomb-CSharp/blob/master/LICENSE.txt</PackageLicenseUrl>
+    <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
     <PackageProjectUrl>https://github.com/kamranayub/GiantBomb-CSharp</PackageProjectUrl>
     <PackageId>GiantBomb.Api</PackageId>
     <RepositoryUrl>https://github.com/kamranayub/GiantBomb-CSharp</RepositoryUrl>
@@ -25,7 +25,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FubarCoder.RestSharp.Portable.HttpClient" Version="4.0.8" />
+    <PackageReference Include="RestSharp" Version="106.11.7" />
+    <PackageReference Include="RestSharp.Serializers.NewtonsoftJson" Version="106.11.7" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="../LICENSE.txt" Pack="true" PackagePath="$(PackageLicenseFile)" />
+  </ItemGroup>
 </Project>
