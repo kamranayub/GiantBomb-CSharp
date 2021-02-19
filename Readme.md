@@ -4,7 +4,7 @@ GiantBomb C#
 [![Build status](https://ci.appveyor.com/api/projects/status/hh268dmpd08qfjqt?svg=true)](https://ci.appveyor.com/project/kamranayub/giantbomb-csharp)  
 [![Build status](https://github.com/kamranayub/GiantBomb-CSharp/actions/workflows/dotnet.yml/badge.svg?branch=master)](https://github.com/kamranayub/GiantBomb-CSharp/actions/workflows/dotnet.yml)
 
-This library aims to wrap the GiantBomb REST API in C# with strongly-typed models and is built on top of [RestSharp Portable](https://github.com/FubarDevelopment/restsharp.portable).
+This library aims to wrap the GiantBomb REST API in C# with strongly-typed models and is built on top of [RestSharp](https://github.com/restsharp/RestSharp).
 
 It also helps make your life easier when dealing with searching because it recursively fetches your search results all at once to enable better sorting.
 
