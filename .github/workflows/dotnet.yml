@@ -16,10 +16,10 @@ jobs:
       with:
         dotnet-version: 5.0.x
     - name: Restore dependencies
-      run: dotnet restore src
+      run: dotnet restore
     - name: Build
-      run: dotnet build --no-restore src
+      run: dotnet build --no-restore
     - name: Test
-      run: dotnet test --no-build --verbosity normal src
+      run: dotnet test --no-build --verbosity normal
       env:
         GIANTBOMB_API_TOKEN: ${{ secrets.GIANTBOMB_API_TOKEN }}
