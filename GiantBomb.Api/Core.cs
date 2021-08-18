@@ -4,12 +4,12 @@ using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Reflection;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using GiantBomb.Api.Model;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
+using GiantBomb.Api.Serialization;
 using RestSharp;
-using RestSharp.Serializers.NewtonsoftJson;
+using RestSharp.Serializers.SystemTextJson;
 
 namespace GiantBomb.Api
 {
@@ -49,14 +49,16 @@ namespace GiantBomb.Api
             // API token is used on every request
             _client.AddDefaultParameter("api_key", ApiKey);
             _client.AddDefaultParameter("format", "json");
-            _client.UseNewtonsoftJson(new JsonSerializerSettings
+            var options = new System.Text.Json.JsonSerializerOptions()
             {
-                DateFormatString = "yyyy-MM-dd HH:mm:ss",
-                ContractResolver = new DefaultContractResolver()
-                {
-                    NamingStrategy = new SnakeCaseNamingStrategy()
-                }
-            });        
+                PropertyNamingPolicy = SnakeCaseNamingPolicy.SnakeCase,
+                DictionaryKeyPolicy = SnakeCaseNamingPolicy.SnakeCase,
+                NumberHandling = JsonNumberHandling.AllowReadingFromString,
+            };
+
+            options.Converters.Add(new DateTimeConverter());
+            options.Converters.Add(new BoolConverter());
+            _client.UseSystemTextJson(options);
         }
 
         public GiantBombRestClient(string apiToken)
@@ -95,17 +97,24 @@ namespace GiantBomb.Api
             }
 
             // Deserialize original requested type
-            T data = default(T);
+            IRestResponse<T> deserializedResponse = null;
             Exception deserializeEx = null;
             try
             {
-                data = _client.Deserialize<T>(response).Data;
+                deserializedResponse = _client.Deserialize<T>(response);
             }
             catch (Exception dex)
             {
                 deserializeEx = dex;
             }
 
+            // Check ErrorException
+            if (deserializedResponse.ErrorException != null)
+            {
+                deserializeEx = deserializedResponse.ErrorException;
+            }
+
+            T data = deserializedResponse.Data;
             if (data == null)
             {
                 // handle GiantBomb raw errors without result wrapper
