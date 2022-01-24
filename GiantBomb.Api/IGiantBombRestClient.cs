@@ -280,12 +280,12 @@ namespace GiantBomb.Api
         /// Execute a manual REST request
         /// </summary>
         /// <param name="request">The RestRequest to execute (will use client credentials)</param>
-        IRestResponse Execute(RestRequest request);
+        RestResponse Execute(RestRequest request);
 
         /// <summary>
         /// Execute a manual REST request
         /// </summary>
         /// <param name="request">The RestRequest to execute (will use client credentials)</param>
-        Task<IRestResponse> ExecuteAsync(RestRequest request);
+        Task<RestResponse> ExecuteAsync(RestRequest request);
     }
 }
