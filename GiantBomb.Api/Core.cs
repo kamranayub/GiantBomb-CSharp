@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using GiantBomb.Api.Model;
 using GiantBomb.Api.Serialization;
 using RestSharp;
-using RestSharp.Serializers.SystemTextJson;
+using RestSharp.Serializers.Json;
 
 namespace GiantBomb.Api
 {
@@ -40,25 +40,26 @@ namespace GiantBomb.Api
 
             var version = typeof(GiantBombRestClient).GetTypeInfo().Assembly.GetName().Version;
 
-            _client = new RestClient
+            var clientOptions = new RestClientOptions(baseUrl)
             {
-                UserAgent = "giantbomb-csharp/" + version,
-                BaseUrl = baseUrl
+                UserAgent = "giantbomb-csharp/" + version
             };
+
+            _client = new RestClient(clientOptions);
             
             // API token is used on every request
             _client.AddDefaultParameter("api_key", ApiKey);
             _client.AddDefaultParameter("format", "json");
-            var options = new System.Text.Json.JsonSerializerOptions()
+            var jsonOptions = new System.Text.Json.JsonSerializerOptions()
             {
                 PropertyNamingPolicy = SnakeCaseNamingPolicy.SnakeCase,
                 DictionaryKeyPolicy = SnakeCaseNamingPolicy.SnakeCase,
                 NumberHandling = JsonNumberHandling.AllowReadingFromString,
             };
 
-            options.Converters.Add(new DateTimeConverter());
-            options.Converters.Add(new BoolConverter());
-            _client.UseSystemTextJson(options);
+            jsonOptions.Converters.Add(new DateTimeConverter());
+            jsonOptions.Converters.Add(new BoolConverter());
+            _client.UseSerializer(() => new SystemTextJsonSerializer(jsonOptions));
         }
 
         public GiantBombRestClient(string apiToken)
@@ -84,7 +85,7 @@ namespace GiantBomb.Api
         /// <param name="request">The RestRequest to execute (will use client credentials)</param>
         public virtual async Task<T> ExecuteAsync<T>(RestRequest request) where T : new()
         {
-            IRestResponse response = null;
+            RestResponse response = null;
 
             try
             {
@@ -97,7 +98,7 @@ namespace GiantBomb.Api
             }
 
             // Deserialize original requested type
-            IRestResponse<T> deserializedResponse = null;
+            RestResponse<T> deserializedResponse = null;
             Exception deserializeEx = null;
             try
             {
@@ -154,7 +155,7 @@ namespace GiantBomb.Api
         /// Execute a manual REST request
         /// </summary>
         /// <param name="request">The RestRequest to execute (will use client credentials)</param>
-        public virtual IRestResponse Execute(RestRequest request)
+        public virtual RestResponse Execute(RestRequest request)
         {
             return ExecuteAsync(request).Result;
         }
@@ -163,7 +164,7 @@ namespace GiantBomb.Api
         /// Execute a manual REST request (async)
         /// </summary>
         /// <param name="request">The RestRequest to execute (will use client credentials)</param>
-        public virtual async Task<IRestResponse> ExecuteAsync(RestRequest request)
+        public virtual async Task<RestResponse> ExecuteAsync(RestRequest request)
         {
             return await _client.ExecuteAsync(request).ConfigureAwait(false);
         }
